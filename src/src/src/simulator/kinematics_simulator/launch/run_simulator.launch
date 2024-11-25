@@ -1,0 +1,43 @@
+<launch>
+    <arg name="car_id" />
+    <arg name="odom_topic" />
+    <arg name="cmd_topic" />
+    <arg name="traj_topic" />
+    <arg name="mesh_topic" />
+
+    <arg name="init_x"/>
+    <arg name="init_y"/>
+    <arg name="init_yaw"/>
+    <arg name="target_x"/>
+    <arg name="target_y"/>
+    <!-- <rosparam command="load" file="$(find kinematics_simulator)/params/simulator.yaml" /> -->
+
+    <node pkg="kinematics_simulator" name="kinematics_car_$(arg car_id)_simulator_node" type="kinematics_simulator_node" output="screen" >
+      <remap from="~odom" to="$(arg odom_topic)"/>
+      <remap from="~traj" to="$(arg traj_topic)"/>
+      <remap from="~mesh" to="$(arg mesh_topic)"/>
+
+      <param name="car_id" value="$(arg car_id)"/>
+      <param name="outputfilm" type = "string" value = "/home/rancho/1hmy/Car-like-Robotic-swarm/record/decentpath/exp1/gazebo1" />
+      <param name="origin_gazebo_x" value="-75.0"/>
+      <param name="origin_gazebo_y" value="-60.0"/>
+      <param name="resolutionforgazebo" value="0.05"/>
+      <param name="ugv_type" value="2"/>
+      <param name="init_x" value="$(arg init_x)"/>
+      <param name="init_y" value="$(arg init_y)"/>
+      <param name="init_yaw" value="$(arg init_yaw)"/>
+      <param name="time_resolution" value="0.01"/>
+      <param name="max_longitude_speed" value="15.0"/>
+      <param name="max_latitude_speed" value="1.5"/>
+      <!-- <param name="max_angular_vel" value="24.0"/> -->
+      <param name="max_angular_vel" value="2.40"/>
+
+      <param name="max_steer_angle" value="0.8"/>
+      <param name="wheel_base" value="3.0"/>
+      <param name="time_delay" value="0.0"/>
+      <param name="noise_std" value="0.0"/>
+      <param name="target_x" value="$(arg target_x)"/>
+      <param name="target_y" value="$(arg target_y)"/>
+
+  </node>
+</launch>

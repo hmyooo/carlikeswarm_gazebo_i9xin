@@ -1,0 +1,104 @@
+<launch>
+    <!-- <arg name="map_size_x" value="90.0"/>
+    <arg name="map_size_y" value="90.0"/>
+    <arg name="map_size_z" value="5.0"/> -->
+    <arg name="map_size_x" value="1200.0"/>
+    <arg name="map_size_y" value="1200.0"/>
+    <arg name="map_size_z" value="5.0"/>
+    <arg name="origin_x" value="0.0"/>
+    <arg name="origin_y" value="0.0"/>
+    <arg name="origin_z" value="0.1"/>
+
+    <arg name="localmap_size_x" value="100.0"/>
+    <arg name="localmap_size_y" value="100.0"/>
+    <arg name="localmap_size_z" value="5.0"/>
+
+    <arg name="lidar_height" value="0.30000"/>
+    <!-- 改 -->
+    <arg name="cars_num" value="1" />
+
+    <include file="$(find traj_planner)/launch/rviz.launch">
+    </include>
+
+    <include file="$(find swarm_bridge)/launch/bridge.launch">
+        <arg name="car_id" value="999" />
+        <arg name="broadcast_ip" value="127.0.0.255" />
+    </include>
+
+    <!-- <node pkg ="dy_obs_ge" name ="dy_obs_generater" type ="obstacle_reader_node" output = "screen" respawn="true" > -->
+        <!-- <param name="dy_gen/txt_file_name" type = "string" value = "/home/rancho/1hmy/Car-like-Robotic-swarm/newmap/dy_obs/true_envi/annotations00.txt" /> -->
+        <!-- <param name="dy_gen/rosrate" value="10.0"/> -->
+
+        <!-- <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/Car-like-Robotic-swarm/newmap/0111.pcd" /> -->
+        <!-- <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/map/pointmap/0111.pcd" /> -->
+
+    <!-- </node> -->
+
+    <node pkg ="map_generator" name ="map_generator_easy" type ="map_generator_easy.py" output = "screen" respawn="true" >
+        <param name="map/x_size" value="$(arg map_size_x)"/>
+        <param name="map/y_size" value="$(arg map_size_y)"/>
+        <param name="map/z_size" value="$(arg map_size_z)"/>
+        <param name="map/resolution" value="0.1"/>
+        <!-- <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/kinematic-cbs/map/the0.3s_ceng_all_0_5smallerwei3Z6s_back_weitianchong.pcd" /> -->
+        <!-- <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/Car-like-Robotic-swarm/newmap/00000.pcd" /> -->
+        <param name="map/mapfile" type = "string" value = "/home/rancho/sim_ws/src/pedsim_ros_with_gazebo/pedsim_gazebo_plugin/maps/4_add1.pcd" />
+
+        
+
+        <param name="map/add_floor" value="false"/>
+        <param name="map/add_ceiling" value="false"/>
+
+        <param name="sensing/rate" value="1.0"/>
+
+    </node>
+
+
+    <include file="$(find traj_planner)/launch/run_in_sim.launch">
+        <arg name="cars_num" value="$(arg cars_num)" />
+        <arg name="car_id" value="0"/>
+        <!-- <arg name="car_width" value="2.1"/>
+        <arg name="car_length" value="4.80"/> -->
+        <arg name="car_width" value="0.690000"/>
+        <arg name="car_length" value="0.930000"/>
+        <arg name="car_wheelbase" value="0.498"/>
+        <arg name="car_front_suspension" value="0.582"/>
+        <arg name="car_rear_suspension" value="0.348"/>
+        <arg name="car_max_steering_angle" value="45.0"/>
+        <arg name="car_d_cr" value="0.275"/>
+        
+
+
+<!-- gazebo1 /20(-10)   -->
+        <arg name="init_x" value="0.81765"/>
+        <arg name="init_y" value="1.332 "/>
+        <arg name="init_yaw" value="-1.1157"/>
+
+        <arg name="target_x" value="8.63335"/>
+        <arg name="target_y" value="15.5346"/>
+        <arg name="target_yaw" value="5.89258"/>
+
+
+
+
+        <arg name="map_size_x" value="$(arg map_size_x)"/>
+        <arg name="map_size_y" value="$(arg map_size_y)"/>
+        <arg name="map_size_z" value="$(arg map_size_z)"/>
+        <arg name="repeat"  value = "false" />
+
+        <arg name="localmap_size_x" value="$(arg localmap_size_x)"/>
+        <arg name="localmap_size_y" value="$(arg localmap_size_y)"/>
+        <arg name="localmap_size_z" value="$(arg localmap_size_z)"/>
+
+        <arg name="origin_x" value="$(arg origin_x)"/>
+        <arg name="origin_y" value="$(arg origin_y)"/>
+        <arg name="origin_z" value="$(arg origin_z)"/>
+
+        <arg name="lidar_height" value="$(arg lidar_height)"/>
+        
+        <arg name="odom_topic" value="/car_0/odometry"/>
+        <arg name="lidar_topic" value="/car_0_laser_simulator/car_0_local_pointcloud"/>
+
+        <arg name="map_pub_topic" value="/car_0/map"/>
+    </include>
+
+  </launch>

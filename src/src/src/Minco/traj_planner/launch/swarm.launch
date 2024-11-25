@@ -1,0 +1,1365 @@
+  <launch>
+    <!-- <arg name="map_size_x" value="90.0"/>
+    <arg name="map_size_y" value="90.0"/>
+    <arg name="map_size_z" value="5.0"/> -->
+    <arg name="map_size_x" value="1200.0"/>
+    <arg name="map_size_y" value="1200.0"/>
+    <arg name="map_size_z" value="5.0"/>
+    <arg name="origin_x" value="-600.0"/>
+    <arg name="origin_y" value="-600.0"/>
+    <arg name="origin_z" value="0.1"/>
+
+    <arg name="localmap_size_x" value="50.0"/>
+    <arg name="localmap_size_y" value="50.0"/>
+    <arg name="localmap_size_z" value="5.0"/>
+
+    <arg name="lidar_height" value="0.0"/>
+    <!-- 改 -->
+    <arg name="cars_num" value="8" />
+
+    <include file="$(find traj_planner)/launch/rviz.launch">
+    </include>
+
+
+
+    <!-- <node pkg ="dy_obs_ge" name ="dy_obs_generater" type ="obstacle_reader_node" output = "screen" respawn="true" >
+        <param name="dy_gen/txt_file_name" type = "string" value = "/home/rancho/1hmy/Car-like-Robotic-swarm/newmap/dy_obs/true_envi/annotations00.txt" />
+        <param name="dy_gen/rosrate" value="10.0"/> -->
+
+        <!-- <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/Car-like-Robotic-swarm/newmap/0111.pcd" /> -->
+        <!-- <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/map/pointmap/0111.pcd" /> -->
+
+    <!-- </node> -->
+    <include file="$(find swarm_bridge)/launch/bridge.launch">
+        <arg name="car_id" value="999" />
+        <arg name="broadcast_ip" value="127.0.0.255" />
+    </include>
+
+
+    <node pkg ="map_generator" name ="map_generator_easy" type ="map_generator_easy.py" output = "screen" respawn="true" >
+        <param name="map/x_size" value="$(arg map_size_x)"/>
+        <param name="map/y_size" value="$(arg map_size_y)"/>
+        <param name="map/z_size" value="$(arg map_size_z)"/>
+        <param name="map/resolution" value="0.1"/>
+        <!-- <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/kinematic-cbs/map/the0.3s_ceng_all_0_5smallerwei3Z6s_back_weitianchong.pcd" /> -->
+        <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/Car-like-Robotic-swarm/newmap/00000.pcd" />
+        <!-- <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/map/pointmap/0111.pcd" /> -->
+
+        
+
+        <param name="map/add_floor" value="false"/>
+        <param name="map/add_ceiling" value="false"/>
+
+        <param name="sensing/rate" value="1.0"/>
+
+    </node>
+
+    <include file="$(find traj_planner)/launch/run_in_sim.launch">
+        <arg name="cars_num" value="$(arg cars_num)" />
+        <arg name="car_id" value="0"/>
+        <!-- <arg name="car_width" value="2.1"/>
+        <arg name="car_length" value="4.80"/> -->
+        <arg name="car_width" value="1.75"/>
+        <arg name="car_length" value="2.65"/>
+        <arg name="car_wheelbase" value="2.00"/>
+        <arg name="car_front_suspension" value="0.93"/>
+        <arg name="car_rear_suspension" value="1.10"/>
+        <arg name="car_max_steering_angle" value="45.0"/>
+        <arg name="car_d_cr" value="0.675"/>
+        
+
+<!-- 00_8 no.1yebuxing -->
+        <!-- <arg name="init_x" value="290.546"/>
+        <arg name="init_y" value="13.6808"/>
+        <arg name="init_yaw" value="-2.17308"/>
+
+        <arg name="target_x" value="213.164"/>
+        <arg name="target_y" value=" 170.318"/>
+        <arg name="target_yaw" value="3.78509"/> -->
+<!-- 00_8(1)-->
+        <arg name="init_x" value="21.2336"/>
+        <arg name="init_y" value=" 235.829"/>
+        <arg name="init_yaw" value="-0.0227235"/>
+
+        <arg name="target_x" value="270.7"/>
+        <arg name="target_y" value=" 182.498"/>
+        <arg name="target_yaw" value="0.472905"/>
+
+
+<!-- 00_8(3)7geok -->
+        <!-- <arg name="init_x" value="293.035"/>
+        <arg name="init_y" value="94.8796"/>
+        <arg name="init_yaw" value="-2.90408"/>
+
+        <arg name="target_x" value="87.0642"/>
+        <arg name="target_y" value="132.738"/>
+        <arg name="target_yaw" value="3.35482"/> -->
+
+<!-- 6-8 -->
+        <!-- <arg name="init_x" value="182.129"/>
+        <arg name="init_y" value="76.665"/>
+        <arg name="init_yaw" value="-1.5274"/>
+
+        <arg name="target_x" value="156.487"/>
+        <arg name="target_y" value="347.865"/>
+        <arg name="target_yaw" value="4.75781"/>  -->
+<!-- 6-8(2) -->
+        <!-- <arg name="init_x" value="152.878"/>
+        <arg name="init_y" value="368.231"/>
+        <arg name="init_yaw" value="-4.69239"/>
+
+        <arg name="target_x" value="220.293 "/>
+        <arg name="target_y" value="191.348 "/>
+        <arg name="target_yaw" value="1.54807"/>  -->
+<!-- 6-8(3d) -->
+        <!-- <arg name="init_x" value="156.977"/>
+        <arg name="init_y" value="349.703"/>
+        <arg name="init_yaw" value="-4.78612"/>
+
+        <arg name="target_x" value="220.175"/>
+        <arg name="target_y" value="195.275"/>
+        <arg name="target_yaw" value="0.643937"/>  -->
+<!-- 6-6(advance) -->
+        <!-- <arg name="init_x" value="229.11"/>
+        <arg name="init_y" value="193.343"/>
+        <arg name="init_yaw" value="-3.20822"/>
+
+        <arg name="target_x" value="121.958"/>
+        <arg name="target_y" value="153.511"/>
+        <arg name="target_yaw" value="3.17059"/>  -->
+<!-- 6-6(advance1) -->
+        <!-- <arg name="init_x" value="282.711"/>
+        <arg name="init_y" value="224.868"/>
+        <arg name="init_yaw" value="-3.37646"/>
+
+        <arg name="target_x" value="125.866"/>
+        <arg name="target_y" value="143.812"/>
+        <arg name="target_yaw" value="2.6514"/>  -->
+
+<!-- 6-6(advance3) -->
+        <!-- <arg name="init_x" value="252.657"/>
+        <arg name="init_y" value="227.934"/>
+        <arg name="init_yaw" value="-3.87468"/>
+
+        <arg name="target_x" value="139.318"/>
+        <arg name="target_y" value="107.444"/>
+        <arg name="target_yaw" value="2.13005"/>  -->
+<!-- 6-6(advance4) -->
+        <!-- <arg name="init_x" value="238.335"/>
+        <arg name="init_y" value="212.707"/>
+        <arg name="init_yaw" value="-3.4655"/>
+
+        <arg name="target_x" value="122.129"/>
+        <arg name="target_y" value="140.214"/>
+        <arg name="target_yaw" value="2.80109"/>  -->
+<!-- 6-8(advance) -->
+        <!-- <arg name="init_x" value="278.321"/>
+        <arg name="init_y" value="221.106"/>
+        <arg name="init_yaw" value="-3.53845"/>
+
+        <arg name="target_x" value="120.354"/>
+        <arg name="target_y" value="137.56"/>
+        <arg name="target_yaw" value=" 2.27299"/>  -->
+<!-- 8-7 -->
+        <!-- <arg name="init_x" value="15.5099"/>
+        <arg name="init_y" value="245.127"/>
+        <arg name="init_yaw" value="-4.68607"/>
+
+        <arg name="target_x" value="123.26"/>
+        <arg name="target_y" value="131.535"/>
+        <arg name="target_yaw" value="0.167432"/>  -->
+<!-- 8-8 -->
+        <!-- <arg name="init_x" value="14.6647"/>
+        <arg name="init_y" value="244.248"/>
+        <arg name="init_yaw" value="-4.66481"/>
+
+        <arg name="target_x" value="14.1281"/>
+        <arg name="target_y" value="98.2889"/>
+        <arg name="target_yaw" value="1.62956"/>  -->
+<!-- 8-8(1) -->
+        <!-- <arg name="init_x" value="338.576"/>
+        <arg name="init_y" value="155.677"/>
+        <arg name="init_yaw" value="-3.09474"/>
+
+        <arg name="target_x" value="53.3097"/>
+        <arg name="target_y" value="162.469"/>
+        <arg name="target_yaw" value="3.26805"/>  -->
+
+        <arg name="map_size_x" value="$(arg map_size_x)"/>
+        <arg name="map_size_y" value="$(arg map_size_y)"/>
+        <arg name="map_size_z" value="$(arg map_size_z)"/>
+        <arg name="repeat"  value = "false" />
+
+        <arg name="localmap_size_x" value="$(arg localmap_size_x)"/>
+        <arg name="localmap_size_y" value="$(arg localmap_size_y)"/>
+        <arg name="localmap_size_z" value="$(arg localmap_size_z)"/>
+
+        <arg name="origin_x" value="$(arg origin_x)"/>
+        <arg name="origin_y" value="$(arg origin_y)"/>
+        <arg name="origin_z" value="$(arg origin_z)"/>
+
+        <arg name="lidar_height" value="$(arg lidar_height)"/>
+        
+        <arg name="odom_topic" value="/car_0/odometry"/>
+        <arg name="lidar_topic" value="/car_0_laser_simulator/car_0_local_pointcloud"/>
+
+        <arg name="map_pub_topic" value="/car_0/map"/>
+    </include>
+ <include file="$(find traj_planner)/launch/run_in_sim.launch">
+        <arg name="cars_num" value="$(arg cars_num)" />
+        <arg name="car_id" value="1"/>
+        <!-- <arg name="car_width" value="2.1"/>
+        <arg name="car_length" value="4.80"/>
+        <arg name="car_wheelbase" value="3.00"/>
+        <arg name="car_front_suspension" value="0.93"/>
+        <arg name="car_rear_suspension" value="1.10"/>
+        <arg name="car_max_steering_angle" value="55.0"/>
+        <arg name="car_d_cr" value="1.3864"/> -->
+        <arg name="car_width" value="1.75"/>
+        <arg name="car_length" value="2.65"/>
+        <arg name="car_wheelbase" value="2.00"/>
+        <arg name="car_front_suspension" value="0.93"/>
+        <arg name="car_rear_suspension" value="1.10"/>
+        <arg name="car_max_steering_angle" value="45.0"/>
+        <arg name="car_d_cr" value="0.675"/>
+
+<!-- 00_6(4) -->
+        <!-- <arg name="init_x" value="299.914"/>
+        <arg name="init_y" value="12.4725"/>
+        <arg name="init_yaw" value="-2.85141"/>
+
+        <arg name="target_x" value="195.459"/>
+        <arg name="target_y" value=" 60.4979"/>
+        <arg name="target_yaw" value="3.09401"/> -->
+<!-- 00_6 -->
+        <!-- <arg name="init_x" value="242.405"/>
+        <arg name="init_y" value="198.306"/>
+        <arg name="init_yaw" value="-4.75492"/>
+
+        <arg name="target_x" value="266.206"/>
+        <arg name="target_y" value="50.3685"/>
+        <arg name="target_yaw" value="1.63965"/> -->
+<!-- 00_8-->
+        <!-- <arg name="init_x" value="295.148"/>
+        <arg name="init_y" value="95.787"/>
+        <arg name="init_yaw" value=" -3.11937"/>
+
+        <arg name="target_x" value="137.036"/>
+        <arg name="target_y" value="133.053"/>
+        <arg name="target_yaw" value="3.17189"/> -->
+<!-- 00_8(1)-->
+        <arg name="init_x" value="126.374"/>
+        <arg name="init_y" value=" 221.351"/>
+        <arg name="init_yaw" value="-6.25289"/>
+
+        <arg name="target_x" value="316.842 "/>
+        <arg name="target_y" value="167.469"/>
+        <arg name="target_yaw" value="1.74846e-07"/>
+<!-- 00_8(3) -->
+        <!-- <arg name="init_x" value="72.7188"/>
+        <arg name="init_y" value="100.818"/>
+        <arg name="init_yaw" value=" -0.145971"/>
+
+        <arg name="target_x" value="254.397"/>
+        <arg name="target_y" value="134.175"/>
+        <arg name="target_yaw" value="6.2005"/> -->
+   
+<!-- 6-4         -->
+        <!-- <arg name="init_x" value="50.4242"/>
+        <arg name="init_y" value="244.279"/>
+        <arg name="init_yaw" value="-6.28318"/>
+
+        <arg name="target_x" value="156.9"/>
+        <arg name="target_y" value="345.091"/>
+        <arg name="target_yaw" value="4.72605"/>  -->
+<!-- 6-5 -->
+        <!-- <arg name="init_x" value="144.669"/>
+        <arg name="init_y" value="96.2279"/>
+        <arg name="init_yaw" value="-1.5708"/>
+
+        <arg name="target_x" value="154.418"/>
+        <arg name="target_y" value="342.742"/>
+        <arg name="target_yaw" value="4.71239"/>  -->
+
+<!-- 6-8 -->
+        <!-- <arg name="init_x" value="157.194"/>
+        <arg name="init_y" value="349.985"/>
+        <arg name="init_yaw" value="-4.54101"/>
+
+        <arg name="target_x" value="274.495"/>
+        <arg name="target_y" value="220.67"/>
+        <arg name="target_yaw" value=" 0.0499591"/>  -->
+<!-- 6-8(2) -->
+        <!-- <arg name="init_x" value="161.573"/>
+        <arg name="init_y" value=" 303.696 "/>
+        <arg name="init_yaw" value=" -4.71239"/>
+
+        <arg name="target_x" value="169.435 "/>
+        <arg name="target_y" value=" 80.9412 "/>
+        <arg name="target_yaw" value=" 1.61622"/>  -->
+<!-- 6-8(3d) -->
+        <!-- <arg name="init_x" value="299.728"/>
+        <arg name="init_y" value="220.385 "/>
+        <arg name="init_yaw" value="-3.21589"/>
+
+        <arg name="target_x" value="45.3487 "/>
+        <arg name="target_y" value=" 224.884 "/>
+        <arg name="target_yaw" value="2.98567"/>  -->
+<!-- 6-6(advance) -->
+        <!-- <arg name="init_x" value="199.187"/>
+        <arg name="init_y" value="234.753"/>
+        <arg name="init_yaw" value="-4.50131"/>
+
+        <arg name="target_x" value="161.923"/>
+        <arg name="target_y" value="117.422"/>
+        <arg name="target_yaw" value="1.96499"/>  -->
+<!-- 6-6(advance1) -->
+        <!-- <arg name="init_x" value="209.328"/>
+        <arg name="init_y" value="234.259"/>
+        <arg name="init_yaw" value="-4.64729"/>
+
+        <arg name="target_x" value="167.603"/>
+        <arg name="target_y" value="87.455"/>
+        <arg name="target_yaw" value="1.52915"/>  -->
+<!-- 6-6(advance3) -->
+        <!-- <arg name="init_x" value="192.113"/>
+        <arg name="init_y" value="155.777"/>
+        <arg name="init_yaw" value="-3.12716"/>
+
+        <arg name="target_x" value=" 106.127"/>
+        <arg name="target_y" value="217.005"/>
+        <arg name="target_yaw" value="2.99291"/>  -->
+<!-- 6-6(advance4) -->
+        <!-- <arg name="init_x" value="172.305"/>
+        <arg name="init_y" value="91.8727"/>
+        <arg name="init_yaw" value="-1.6255"/>
+
+        <arg name="target_x" value="96.0596"/>
+        <arg name="target_y" value="231.225"/>
+        <arg name="target_yaw" value="3.08114"/>  -->
+<!-- 6-8(advance) -->
+        <!-- <arg name="init_x" value="208.15"/>
+        <arg name="init_y" value="239.407"/>
+        <arg name="init_yaw" value="-4.2939"/>
+
+        <arg name="target_x" value="161.674"/>
+        <arg name="target_y" value="87.3609"/>
+        <arg name="target_yaw" value="1.69888"/>  -->
+<!-- 8-7 -->
+        <!-- <arg name="init_x" value="89.0922"/>
+        <arg name="init_y" value="257.862"/>
+        <arg name="init_yaw" value="-4.72145"/>
+
+        <arg name="target_x" value="80.2691"/>
+        <arg name="target_y" value="20.8538"/>
+        <arg name="target_yaw" value="1.63592"/>  -->
+
+<!-- 8-8 -->
+        <!-- <arg name="init_x" value="68.3261"/>
+        <arg name="init_y" value="118.144"/>
+        <arg name="init_yaw" value="-6.14129"/>
+
+        <arg name="target_x" value="269.556"/>
+        <arg name="target_y" value="121.363"/>
+        <arg name="target_yaw" value="0.118489"/>  -->
+
+<!-- 8-8(1) -->
+        <!-- <arg name="init_x" value="45.5112"/>
+        <arg name="init_y" value="192.241"/>
+        <arg name="init_yaw" value="-6.19032"/>
+
+        <arg name="target_x" value="330.787"/>
+        <arg name="target_y" value="186.467"/>
+        <arg name="target_yaw" value="0.0936264"/>  -->
+
+        <arg name="map_size_x" value="$(arg map_size_x)"/>
+        <arg name="map_size_y" value="$(arg map_size_y)"/>
+        <arg name="map_size_z" value="$(arg map_size_z)"/>
+        <arg name="repeat"  value = "false" />
+
+        <arg name="localmap_size_x" value="$(arg localmap_size_x)"/>
+        <arg name="localmap_size_y" value="$(arg localmap_size_y)"/>
+        <arg name="localmap_size_z" value="$(arg localmap_size_z)"/>
+
+        <arg name="origin_x" value="$(arg origin_x)"/>
+        <arg name="origin_y" value="$(arg origin_y)"/>
+        <arg name="origin_z" value="$(arg origin_z)"/>
+
+        <arg name="lidar_height" value="$(arg lidar_height)"/>
+        
+        <arg name="odom_topic" value="/car_1/odometry"/>
+        <arg name="lidar_topic" value="/car_1_laser_simulator/car_1_local_pointcloud"/>
+
+        <arg name="map_pub_topic" value="/car_1/map"/>
+    </include>
+
+    <include file="$(find traj_planner)/launch/run_in_sim.launch">
+        <arg name="cars_num" value="$(arg cars_num)" />
+        <arg name="car_id" value="2"/>
+        <arg name="car_width" value="1.75"/>
+        <arg name="car_length" value="2.65"/>
+        <arg name="car_wheelbase" value="2.00"/>
+        <arg name="car_front_suspension" value="0.93"/>
+        <arg name="car_rear_suspension" value="1.10"/>
+        <arg name="car_max_steering_angle" value="45.0"/>
+        <arg name="car_d_cr" value="0.675"/>
+        
+   
+
+<!-- 00_6(4) -->
+        <!-- <arg name="init_x" value="292.71"/>
+        <arg name="init_y" value="89.6133"/>
+        <arg name="init_yaw" value="-3.10107"/>
+
+        <arg name="target_x" value="62.1882"/>
+        <arg name="target_y" value="135.838"/>
+        <arg name="target_yaw" value=" 3.2587"/> -->
+<!-- 00_6 -->
+        <!-- <arg name="init_x" value="297.473"/>
+        <arg name="init_y" value="94.4697"/>
+        <arg name="init_yaw" value="-3.1514"/>
+
+        <arg name="target_x" value="143.936"/>
+        <arg name="target_y" value="110.57"/>
+        <arg name="target_yaw" value="3.16159"/> -->
+<!-- 00_8-->
+        <!-- <arg name="init_x" value="274.386"/>
+        <arg name="init_y" value="152.218"/>
+        <arg name="init_yaw" value="-3.09814"/>
+
+        <arg name="target_x" value="84.864"/>
+        <arg name="target_y" value="99.5136"/>
+        <arg name="target_yaw" value="3.00295"/> -->
+<!-- 00_8(1)-->
+        <arg name="init_x" value="238.509 "/>
+        <arg name="init_y" value=" 221.702"/>
+        <arg name="init_yaw" value="-4.71239"/>
+
+        <arg name="target_x" value="229.864"/>
+        <arg name="target_y" value="26.7115 "/>
+        <arg name="target_yaw" value="1.57079"/>
+<!-- 00_8(3) -->
+        <!-- <arg name="init_x" value="261.816"/>
+        <arg name="init_y" value="18.4261"/>
+        <arg name="init_yaw" value=" -1.56096"/>
+
+        <arg name="target_x" value="238.928"/>
+        <arg name="target_y" value="215.705"/>
+        <arg name="target_yaw" value="4.72203"/> -->
+<!-- 6-4         -->
+         <!-- <arg name="init_x" value="152.565"/>
+        <arg name="init_y" value="317.905"/>
+        <arg name="init_yaw" value="-4.70924"/>
+
+        <arg name="target_x" value="297.218"/>
+        <arg name="target_y" value="185.239"/>
+        <arg name="target_yaw" value="1.59091"/>  -->
+<!-- 6-5 -->
+        <!-- <arg name="init_x" value="155.462"/>
+        <arg name="init_y" value="349.706"/>
+        <arg name="init_yaw" value="-4.71239"/>
+
+        <arg name="target_x" value="291.951"/>
+        <arg name="target_y" value="211.825"/>
+        <arg name="target_yaw" value="0.190755"/>  -->
+
+<!-- 6-8 -->
+        <!-- <arg name="init_x" value="301.348"/>
+        <arg name="init_y" value="186.045"/>
+        <arg name="init_yaw" value=" -1.74674"/>
+
+        <arg name="target_x" value="69.5707"/>
+        <arg name="target_y" value="231.977"/>
+        <arg name="target_yaw" value="3.23225"/>  -->
+<!-- 6-8(2) -->
+        <!-- <arg name="init_x" value="51.1008  "/>
+        <arg name="init_y" value="222.724"/>
+        <arg name="init_yaw" value="-0.0113641"/>
+
+        <arg name="target_x" value="298.071 "/>
+        <arg name="target_y" value="216.805"/>
+        <arg name="target_yaw" value=" 0.0524445"/>  -->
+<!-- 6-8(3d) -->
+        <!-- <arg name="init_x" value="59.3113"/>
+        <arg name="init_y" value=" 235.942"/>
+        <arg name="init_yaw" value="-0.129715"/>
+
+        <arg name="target_x" value="183.868 "/>
+        <arg name="target_y" value="157.891"/>
+        <arg name="target_yaw" value="1.59511"/>  -->
+<!-- 6-6(advance) -->
+        <!-- <arg name="init_x" value="114.28"/>
+        <arg name="init_y" value="231.16"/>
+        <arg name="init_yaw" value="-5.41075"/>
+
+        <arg name="target_x" value="242.29"/>
+        <arg name="target_y" value="103.301"/>
+        <arg name="target_yaw" value="0.434314"/>  -->
+<!-- 6-6(advance1) -->
+        <!-- <arg name="init_x" value="268.343"/>
+        <arg name="init_y" value="105.233"/>
+        <arg name="init_yaw" value="-2.9244"/>
+
+        <arg name="target_x" value="94.5906"/>
+        <arg name="target_y" value="226.218"/>
+        <arg name="target_yaw" value="3.06978"/>  -->
+<!-- 6-6(advance3) -->
+        <!-- <arg name="init_x" value="100.945"/>
+        <arg name="init_y" value="232.791"/>
+        <arg name="init_yaw" value="-6.1542"/>
+
+        <arg name="target_x" value="223.089"/>
+        <arg name="target_y" value="105.779"/>
+        <arg name="target_yaw" value="0.277406"/>  -->
+<!-- 6-6(advance4) -->
+        <!-- <arg name="init_x" value="219.241"/>
+        <arg name="init_y" value="184.451"/>
+        <arg name="init_yaw" value="-3.16218"/>
+
+        <arg name="target_x" value="116.454"/>
+        <arg name="target_y" value="153.658"/>
+        <arg name="target_yaw" value="3.09549"/>  -->
+<!-- 6-8(advance) -->
+        <!-- <arg name="init_x" value="195.455"/>
+        <arg name="init_y" value="71.3001"/>
+        <arg name="init_yaw" value="-1.6232"/>
+
+        <arg name="target_x" value="261.203"/>
+        <arg name="target_y" value="220.952"/>
+        <arg name="target_yaw" value="6.1286"/>  -->
+<!-- 8-7 -->
+        <!-- <arg name="init_x" value="105.92"/>
+        <arg name="init_y" value="9.78358"/>
+        <arg name="init_yaw" value="-1.48112"/>
+
+        <arg name="target_x" value="101.425"/>
+        <arg name="target_y" value="245.127"/>
+        <arg name="target_yaw" value="4.70943"/>  -->
+<!-- 8-8 -->
+        <!-- <arg name="init_x" value=" 116.085"/>
+        <arg name="init_y" value="24.7729"/>
+        <arg name="init_yaw" value="-3.06855"/>
+
+        <arg name="target_x" value="47.9348"/>
+        <arg name="target_y" value="197.026"/>
+        <arg name="target_yaw" value="3.21045"/>  -->
+<!-- 8-8(1) -->
+        <!-- <arg name="init_x" value="313.738"/>
+        <arg name="init_y" value="245.835"/>
+        <arg name="init_yaw" value="-4.80581"/>
+
+        <arg name="target_x" value="325.298"/>
+        <arg name="target_y" value="63.2736"/>
+        <arg name="target_yaw" value="1.55142"/>  -->
+
+        <arg name="map_size_x" value="$(arg map_size_x)"/>
+        <arg name="map_size_y" value="$(arg map_size_y)"/>
+        <arg name="map_size_z" value="$(arg map_size_z)"/>
+        <arg name="repeat"  value = "false" />
+
+        <arg name="localmap_size_x" value="$(arg localmap_size_x)"/>
+        <arg name="localmap_size_y" value="$(arg localmap_size_y)"/>
+        <arg name="localmap_size_z" value="$(arg localmap_size_z)"/>
+
+        <arg name="origin_x" value="$(arg origin_x)"/>
+        <arg name="origin_y" value="$(arg origin_y)"/>
+        <arg name="origin_z" value="$(arg origin_z)"/>
+
+        <arg name="lidar_height" value="$(arg lidar_height)"/>
+        
+        <arg name="odom_topic" value="/car_2/odometry"/>
+        <arg name="lidar_topic" value="/car_2_laser_simulator/car_2_local_pointcloud"/>
+
+        <arg name="map_pub_topic" value="/car_2/map"/>
+    </include>
+
+    <include file="$(find traj_planner)/launch/run_in_sim.launch">
+        <arg name="cars_num" value="$(arg cars_num)" />
+        <arg name="car_id" value="3"/>
+        <arg name="car_width" value="1.75"/>
+        <arg name="car_length" value="2.65"/>
+        <arg name="car_wheelbase" value="2.00"/>
+        <arg name="car_front_suspension" value="0.93"/>
+        <arg name="car_rear_suspension" value="1.10"/>
+        <arg name="car_max_steering_angle" value="45.0"/>
+        <arg name="car_d_cr" value="0.675"/>
+        
+  
+<!-- 00_6 -->
+        <!-- <arg name="init_x" value="147.669"/>
+        <arg name="init_y" value=" 95.6364"/>
+        <arg name="init_yaw" value="-6.25541"/>
+
+        <arg name="target_x" value="276.389"/>
+        <arg name="target_y" value="149.147"/>
+        <arg name="target_yaw" value="0.103083"/> -->
+<!-- 00_6(4) -->
+        <!-- <arg name="init_x" value="294.232"/>
+        <arg name="init_y" value="129.653"/>
+        <arg name="init_yaw" value="-1.64566"/>
+
+        <arg name="target_x" value="162.376"/>
+        <arg name="target_y" value="221.771"/>
+        <arg name="target_yaw" value="3.37009"/> -->
+<!-- 00_8-->
+        <!-- <arg name="init_x" value="252.333"/>
+        <arg name="init_y" value="61.4471"/>
+        <arg name="init_yaw" value="-1.56254"/>
+
+        <arg name="target_x" value="240.656"/>
+        <arg name="target_y" value="213.769"/>
+        <arg name="target_yaw" value="4.79222"/> -->
+<!-- 00_8(1)-->
+        <arg name="init_x" value="270.228"/>
+        <arg name="init_y" value=" 181.836"/>
+        <arg name="init_yaw" value="-4.71239"/>
+
+        <arg name="target_x" value="270.313"/>
+        <arg name="target_y" value="24.372  "/>
+        <arg name="target_yaw" value="1.46945"/>
+<!-- 00_8(3)(zhegebuxing) -->
+        <!-- <arg name="init_x" value="269.89"/>
+        <arg name="init_y" value="148.347"/>
+        <arg name="init_yaw" value=" -4.17109"/>
+
+        <arg name="target_x" value="219.774"/>
+        <arg name="target_y" value=" 52.0875"/>
+        <arg name="target_yaw" value="2.14516"/> -->
+<!-- 6-4 -->
+        <!-- <arg name="init_x" value="231.158"/>
+        <arg name="init_y" value="187.061"/>
+        <arg name="init_yaw" value="-3.17235"/>
+
+        <arg name="target_x" value="70.9951"/>
+        <arg name="target_y" value="99.0492"/>
+        <arg name="target_yaw" value="3.02448"/>  -->
+<!-- 6-5 -->
+        <!-- <arg name="init_x" value="41.606"/>
+        <arg name="init_y" value="241.073"/>
+        <arg name="init_yaw" value="-6.28318"/>
+
+        <arg name="target_x" value="218.832"/>
+        <arg name="target_y" value="184.667"/>
+        <arg name="target_yaw" value="1.74716e-06"/>  -->
+
+<!-- 6-8 -->
+        <!-- <arg name="init_x" value="42.0119"/>
+        <arg name="init_y" value="231.27"/>
+        <arg name="init_yaw" value="-0.0525825"/>
+
+        <arg name="target_x" value="192.526"/>
+        <arg name="target_y" value="92.0625"/>
+        <arg name="target_yaw" value="1.5708"/>  -->
+<!-- 6-8(2) -->
+        <!-- <arg name="init_x" value="106.199"/>
+        <arg name="init_y" value="246.321"/>
+        <arg name="init_yaw" value="-5.10186"/>
+
+        <arg name="target_x" value="195.025 "/>
+        <arg name="target_y" value="81.5524"/>
+        <arg name="target_yaw" value="1.46419"/>  -->
+<!-- 6-8(3d) -->
+        <!-- <arg name="init_x" value="126.227 "/>
+        <arg name="init_y" value="145.841"/>
+        <arg name="init_yaw" value="-6.11396"/>
+
+        <arg name="target_x" value="257.985 "/>
+        <arg name="target_y" value="104.942 "/>
+        <arg name="target_yaw" value="6.20486"/>  -->
+<!-- 6-6(advance) -->
+        <!-- <arg name="init_x" value="82.5587"/>
+        <arg name="init_y" value="247.101"/>
+        <arg name="init_yaw" value="-5.99525"/>
+
+        <arg name="target_x" value="188.122"/>
+        <arg name="target_y" value="163.294"/>
+        <arg name="target_yaw" value="0.768261"/>  -->
+<!-- 6-6(advance1) -->
+        <!-- <arg name="init_x" value="181.12"/>
+        <arg name="init_y" value="104.557"/>
+        <arg name="init_yaw" value="-1.86115"/>
+
+        <arg name="target_x" value="48.0069"/>
+        <arg name="target_y" value="228.797"/>
+        <arg name="target_yaw" value="3.19956"/>  -->
+<!-- 6-6(advance3) -->
+        <!-- <arg name="init_x" value="201.078"/>
+        <arg name="init_y" value="234.891"/>
+        <arg name="init_yaw" value=" -4.7617"/>
+
+        <arg name="target_x" value="171.188"/>
+        <arg name="target_y" value="81.5331"/>
+        <arg name="target_yaw" value="1.55156"/>  -->
+<!-- 6-6(advance4) -->
+        <!-- <arg name="init_x" value="122.24"/>
+        <arg name="init_y" value="135.781"/>
+        <arg name="init_yaw" value=" -0.373325"/>
+
+        <arg name="target_x" value="199.866"/>
+        <arg name="target_y" value="233.111"/>
+        <arg name="target_yaw" value="4.76244"/>  -->
+<!-- 6-8(advance) -->
+        <!-- <arg name="init_x" value="263.493"/>
+        <arg name="init_y" value="102.211"/>
+        <arg name="init_yaw" value="-3.11652"/>
+
+        <arg name="target_x" value="97.8801"/>
+        <arg name="target_y" value="219.019"/>
+        <arg name="target_yaw" value="3.1682"/>  -->
+<!--  8-7-->
+        <!-- <arg name="init_x" value="64.3377"/>
+        <arg name="init_y" value="200.875"/>
+        <arg name="init_yaw" value="-0.0525811"/>
+
+        <arg name="target_x" value="339.195"/>
+        <arg name="target_y" value="152.403"/>
+        <arg name="target_yaw" value="6.20642"/>  -->
+
+<!-- 8-8 -->
+        <!-- <arg name="init_x" value="84.4245"/>
+        <arg name="init_y" value="227.613"/>
+        <arg name="init_yaw" value="-4.37114e-08"/>
+
+        <arg name="target_x" value="285.655"/>
+        <arg name="target_y" value="257.127"/>
+        <arg name="target_yaw" value="0.114878"/>  -->
+
+<!-- 8-8(1) -->
+        <!-- <arg name="init_x" value="300.407"/>
+        <arg name="init_y" value="53.1745"/>
+        <arg name="init_yaw" value="-1.54242"/>
+
+        <arg name="target_x" value="289.647"/>
+        <arg name="target_y" value="245.835"/>
+        <arg name="target_yaw" value="4.7198"/>  -->
+
+        <arg name="repeat"  value = "false" />
+
+        <arg name="map_size_x" value="$(arg map_size_x)"/>
+        <arg name="map_size_y" value="$(arg map_size_y)"/>
+        <arg name="map_size_z" value="$(arg map_size_z)"/>
+
+        <arg name="localmap_size_x" value="$(arg localmap_size_x)"/>
+        <arg name="localmap_size_y" value="$(arg localmap_size_y)"/>
+        <arg name="localmap_size_z" value="$(arg localmap_size_z)"/>
+
+        <arg name="origin_x" value="$(arg origin_x)"/>
+        <arg name="origin_y" value="$(arg origin_y)"/>
+        <arg name="origin_z" value="$(arg origin_z)"/>
+
+        <arg name="lidar_height" value="$(arg lidar_height)"/>
+        
+        <arg name="odom_topic" value="/car_3/odometry"/>
+        <arg name="lidar_topic" value="/car_3_laser_simulator/car_3_local_pointcloud"/>
+
+        <arg name="map_pub_topic" value="/car_3/map"/>
+    </include>
+
+    <include file="$(find traj_planner)/launch/run_in_sim.launch">
+        <arg name="cars_num" value="$(arg cars_num)" />
+        <arg name="car_id" value="4"/>
+        <arg name="car_width" value="1.75"/>
+        <arg name="car_length" value="2.65"/>
+        <arg name="car_wheelbase" value="2.00"/>
+        <arg name="car_front_suspension" value="0.93"/>
+        <arg name="car_rear_suspension" value="1.10"/>
+        <arg name="car_max_steering_angle" value="45.0"/>
+        <arg name="car_d_cr" value="0.675"/>
+        
+
+
+<!-- 00_6(4) -->
+        <!-- <arg name="init_x" value="341.495"/>
+        <arg name="init_y" value="165.778"/>
+        <arg name="init_yaw" value=" -3.21911"/>
+
+        <arg name="target_x" value="153.344"/>
+        <arg name="target_y" value="132.663"/>
+        <arg name="target_yaw" value="3.09401"/> -->
+<!-- 00_6 -->
+        <!-- <arg name="init_x" value="289.559"/>
+        <arg name="init_y" value="149.07"/>
+        <arg name="init_yaw" value="-3.07647"/>
+
+        <arg name="target_x" value="219.09"/>
+        <arg name="target_y" value="59.2346"/>
+        <arg name="target_yaw" value="3.2129"/> -->
+ <!-- 00_8-->
+        <!-- <arg name="init_x" value="244.371"/>
+        <arg name="init_y" value="218.545"/>
+        <arg name="init_yaw" value="-4.8577"/>
+
+        <arg name="target_x" value="295.148"/>
+        <arg name="target_y" value="96.3195"/>
+        <arg name="target_yaw" value="1.72446"/> -->
+<!-- 00_8(1)-->
+        <arg name="init_x" value="292.972"/>
+        <arg name="init_y" value="109.457"/>
+        <arg name="init_yaw" value="-3.14159"/>
+
+        <arg name="target_x" value="101.807 "/>
+        <arg name="target_y" value=" 123.751  "/>
+        <arg name="target_yaw" value="3.2311"/>
+<!-- 00_8(3) -->
+        <!-- <arg name="init_x" value="161.363"/>
+        <arg name="init_y" value="102.413"/>
+        <arg name="init_yaw" value="-3.21125"/>
+
+        <arg name="target_x" value="13.3791"/>
+        <arg name="target_y" value="114.242"/>
+        <arg name="target_yaw" value="4.74846"/> -->
+<!-- 6-4 -->
+        <!-- <arg name="init_x" value="134.216"/>
+        <arg name="init_y" value=" 189.298"/>
+        <arg name="init_yaw" value="-4.65671"/>
+
+        <arg name="target_x" value="139.722"/>
+        <arg name="target_y" value="47.3028"/>
+        <arg name="target_yaw" value="1.59163"/>  -->
+<!-- 6-5 -->
+        <!-- <arg name="init_x" value="228.233"/>
+        <arg name="init_y" value=" 191.63"/>
+        <arg name="init_yaw" value="-3.37943"/>
+
+        <arg name="target_x" value="118.207"/>
+        <arg name="target_y" value="138.01"/>
+        <arg name="target_yaw" value="2.11758"/>  -->
+
+
+<!-- 6-8 -->
+        <!-- <arg name="init_x" value="227.857"/>
+        <arg name="init_y" value="195.938"/>
+        <arg name="init_yaw" value="-3.38657"/>
+
+        <arg name="target_x" value="123.275"/>
+        <arg name="target_y" value="142.94"/>
+        <arg name="target_yaw" value="2.67794"/>  -->
+<!-- 6-8(2) -->
+        <!-- <arg name="init_x" value="309.838"/>
+        <arg name="init_y" value="216.75"/>
+        <arg name="init_yaw" value="-3.14964"/>
+
+        <arg name="target_x" value="116.679  "/>
+        <arg name="target_y" value="  139.457"/>
+        <arg name="target_yaw" value="1.79831"/>  -->
+<!-- 6-8(3d) -->
+        <!-- <arg name="init_x" value="145.604"/>
+        <arg name="init_y" value="255.386  "/>
+        <arg name="init_yaw" value="-4.62925"/>
+
+        <arg name="target_x" value="166.579"/>
+        <arg name="target_y" value="87.1562"/>
+        <arg name="target_yaw" value="1.53386"/>  -->
+<!-- 6-8(advanceold) -->
+        <!-- <arg name="init_x" value="158.601"/>
+        <arg name="init_y" value="310.181"/>
+        <arg name="init_yaw" value="-4.64299"/>
+
+        <arg name="target_x" value="138.674"/>
+        <arg name="target_y" value="158.314"/>
+        <arg name="target_yaw" value="1.74974"/>  -->
+<!-- 6-6(advance1) -->
+        <!-- <arg name="init_x" value="304.045"/>
+        <arg name="init_y" value="206.278"/>
+        <arg name="init_yaw" value="-2.95505"/>
+
+        <arg name="target_x" value="110.845"/>
+        <arg name="target_y" value="156.745"/>
+        <arg name="target_yaw" value="3.08923"/>  -->
+<!-- 6-6(advance3) -->
+        <!-- <arg name="init_x" value="138.959"/>
+        <arg name="init_y" value="98.9608"/>
+        <arg name="init_yaw" value="-1.12747"/>
+
+        <arg name="target_x" value="278.484"/>
+        <arg name="target_y" value="223.076"/>
+        <arg name="target_yaw" value="6.27073"/>  -->
+<!-- 6-6(advance4) -->
+        <!-- <arg name="init_x" value="68.1808"/>
+        <arg name="init_y" value="236.42"/>
+        <arg name="init_yaw" value="-6.15206"/>
+
+        <arg name="target_x" value="188.527"/>
+        <arg name="target_y" value="161.881"/>
+        <arg name="target_yaw" value="0.839338"/>  -->
+<!-- 6-8(advance) -->
+        <!-- <arg name="init_x" value="193.077"/>
+        <arg name="init_y" value="164.794"/>
+        <arg name="init_yaw" value="-2.40905"/>
+
+        <arg name="target_x" value="67.8772"/>
+        <arg name="target_y" value="245.857"/>
+        <arg name="target_yaw" value="3.01719"/>  -->
+<!-- 8-7 -->
+        <!-- <arg name="init_x" value="77.8512"/>
+        <arg name="init_y" value="125.362"/>
+        <arg name="init_yaw" value="-0.031238"/>
+
+        <arg name="target_x" value="327.789"/>
+        <arg name="target_y" value="117.05"/>
+        <arg name="target_yaw" value="4.88013e-07"/>  -->
+<!-- 8-8 -->
+        <!-- <arg name="init_x" value="88.1808"/>
+        <arg name="init_y" value=" 259.273"/>
+        <arg name="init_yaw" value="-4.75781"/>
+
+        <arg name="target_x" value="90.3272"/>
+        <arg name="target_y" value="21.5532"/>
+        <arg name="target_yaw" value="1.6563"/>  -->
+<!-- 8-8(1) -->
+        <!-- <arg name="init_x" value="202.847"/>
+        <arg name="init_y" value="226.024"/>
+        <arg name="init_yaw" value="-4.62601"/>
+
+        <arg name="target_x" value="184.005"/>
+        <arg name="target_y" value="155.617"/>
+        <arg name="target_yaw" value="1.87998"/>  -->
+
+        <arg name="repeat"  value = "false" />
+
+        <arg name="map_size_x" value="$(arg map_size_x)"/>
+        <arg name="map_size_y" value="$(arg map_size_y)"/>
+        <arg name="map_size_z" value="$(arg map_size_z)"/>
+
+        <arg name="localmap_size_x" value="$(arg localmap_size_x)"/>
+        <arg name="localmap_size_y" value="$(arg localmap_size_y)"/>
+        <arg name="localmap_size_z" value="$(arg localmap_size_z)"/>
+
+        <arg name="origin_x" value="$(arg origin_x)"/>
+        <arg name="origin_y" value="$(arg origin_y)"/>
+        <arg name="origin_z" value="$(arg origin_z)"/>
+
+        <arg name="lidar_height" value="$(arg lidar_height)"/>
+        
+        <arg name="odom_topic" value="/car_4/odometry"/>
+        <arg name="lidar_topic" value="/car_4_laser_simulator/car_4_local_pointcloud"/>
+
+        <arg name="map_pub_topic" value="/car_4/map"/>
+    </include>
+<include file="$(find traj_planner)/launch/run_in_sim.launch">
+        <arg name="cars_num" value="$(arg cars_num)" />
+        <arg name="car_id" value="5"/>
+        <arg name="car_width" value="1.75"/>
+        <arg name="car_length" value="2.65"/>
+        <arg name="car_wheelbase" value="2.00"/>
+        <arg name="car_front_suspension" value="0.93"/>
+        <arg name="car_rear_suspension" value="1.10"/>
+        <arg name="car_max_steering_angle" value="45.0"/>
+        <arg name="car_d_cr" value="0.675"/>
+        
+
+<!-- 00_6(4) -->
+        <!-- <arg name="init_x" value="34.6474"/>
+        <arg name="init_y" value=" 242.084"/>
+        <arg name="init_yaw" value=" -4.74744"/>
+
+        <arg name="target_x" value="24.951"/>
+        <arg name="target_y" value="51.4609"/>
+        <arg name="target_yaw" value="1.5904"/> -->
+<!-- 00_6 -->
+        <!-- <arg name="init_x" value="140.688"/>
+        <arg name="init_y" value="128.536"/>
+        <arg name="init_yaw" value=" -6.2391"/>
+
+        <arg name="target_x" value=" 286.292"/>
+        <arg name="target_y" value="94.9356"/>
+        <arg name="target_yaw" value="6.26046"/> -->
+ <!-- 00_8-->
+        <!-- <arg name="init_x" value="219.958"/>
+        <arg name="init_y" value="218.014"/>
+        <arg name="init_yaw" value="-3.14159"/>
+
+        <arg name="target_x" value="51.1834"/>
+        <arg name="target_y" value="222.791"/>
+        <arg name="target_yaw" value="3.05981"/> -->
+<!-- 00_8(1)-->
+        <arg name="init_x" value="99.9235"/>
+        <arg name="init_y" value="116.978 "/>
+        <arg name="init_yaw" value="-0.0089281"/>
+
+        <arg name="target_x" value="265.456  "/>
+        <arg name="target_y" value=" 57.4796  "/>
+        <arg name="target_yaw" value="1.361"/>
+<!-- 00_8(3) -->
+        <!-- <arg name="init_x" value="21.5085"/>
+        <arg name="init_y" value="29.8954"/>
+        <arg name="init_yaw" value="-1.56898"/>
+
+        <arg name="target_x" value="27.975"/>
+        <arg name="target_y" value="217.6"/>
+        <arg name="target_yaw" value="4.78745"/> -->
+      
+<!-- 6-4 -->
+        <!-- <arg name="init_x" value=" 134.459"/>
+        <arg name="init_y" value=" 48.0789"/>
+        <arg name="init_yaw" value="-6.18352"/>
+
+        <arg name="target_x" value="255.21"/>
+        <arg name="target_y" value="90.4038"/>
+        <arg name="target_yaw" value="0.341503"/>  -->
+<!-- 6-5 -->
+        <!-- <arg name="init_x" value="134.105"/>
+        <arg name="init_y" value=" 21.4739"/>
+        <arg name="init_yaw" value="-1.51821"/>
+
+        <arg name="target_x" value=" 270.547"/>
+        <arg name="target_y" value="104.103"/>
+        <arg name="target_yaw" value="6.23323"/>  -->
+<!-- 6-8 -->
+        <!-- <arg name="init_x" value="119.313"/>
+        <arg name="init_y" value="137.602"/>
+        <arg name="init_yaw" value="-6.14518"/>
+
+        <arg name="target_x" value="276.431"/>
+        <arg name="target_y" value="105.896"/>
+        <arg name="target_yaw" value="6.20336"/>  -->
+<!-- 6-8(2) -->
+        <!-- <arg name="init_x" value="132.522 "/>
+        <arg name="init_y" value="190.545"/>
+        <arg name="init_yaw" value="-4.68355"/>
+
+        <arg name="target_x" value="271.663 "/>
+        <arg name="target_y" value=" 108.203"/>
+        <arg name="target_yaw" value="0.0418578"/>  -->
+<!-- 6-8(3d) -->
+        <!-- <arg name="init_x" value="147.019"/>
+        <arg name="init_y" value="114.975"/>
+        <arg name="init_yaw" value="-1.80994"/>
+
+        <arg name="target_x" value="154.793 "/>
+        <arg name="target_y" value="314.539 "/>
+        <arg name="target_yaw" value="4.60508"/>  -->
+<!-- 6-6(advance) -->
+        <!-- <arg name="init_x" value="185.627"/>
+        <arg name="init_y" value="129.728"/>
+        <arg name="init_yaw" value="-1.98326"/>
+
+        <arg name="target_x" value="91.0324"/>
+        <arg name="target_y" value="251.612"/>
+        <arg name="target_yaw" value="3.2101"/>  -->
+<!-- 6-6(advance1) -->
+        <!-- <arg name="init_x" value=" 109.231"/>
+        <arg name="init_y" value="246.421"/>
+        <arg name="init_yaw" value=" -5.26378"/>
+
+        <arg name="target_x" value="250.123"/>
+        <arg name="target_y" value="103.305"/>
+        <arg name="target_yaw" value="0.12934"/>  -->
+<!-- 6-6(advance3) -->
+        <!-- <arg name="init_x" value="260.738"/>
+        <arg name="init_y" value="108.557"/>
+        <arg name="init_yaw" value="-3.00752"/>
+
+        <arg name="target_x" value=" 118.8"/>
+        <arg name="target_y" value="154.477"/>
+        <arg name="target_yaw" value="3.23958"/>  -->
+<!-- 6-6(advance4) -->
+        <!-- <arg name="init_x" value="298.957"/>
+        <arg name="init_y" value="217.91"/>
+        <arg name="init_yaw" value="-3.18943"/>
+
+        <arg name="target_x" value="188.168"/>
+        <arg name="target_y" value="91.9369"/>
+        <arg name="target_yaw" value="1.58006"/>  -->
+<!-- 6-8(advance) -->
+        <!-- <arg name="init_x" value="65.5149"/>
+        <arg name="init_y" value="223.256"/>
+        <arg name="init_yaw" value="-0.0226578"/>
+
+        <arg name="target_x" value="154.013"/>
+        <arg name="target_y" value="327.956"/>
+        <arg name="target_yaw" value="4.65828"/>  -->
+<!-- 8-7 -->
+        <!-- <arg name="init_x" value="291.174"/>
+        <arg name="init_y" value="255.685"/>
+        <arg name="init_yaw" value="-4.64796"/>
+
+        <arg name="target_x" value="287.839"/>
+        <arg name="target_y" value="68.3416"/>
+        <arg name="target_yaw" value="1.5708"/>  -->
+<!-- 8-8 -->
+        <!-- <arg name="init_x" value="127.354"/>
+        <arg name="init_y" value="193.806"/>
+        <arg name="init_yaw" value="-4.37114e-08"/>
+
+        <arg name="target_x" value="334.486"/>
+        <arg name="target_y" value="114.924"/>
+        <arg name="target_yaw" value="0.295442"/>  -->
+<!-- 8-8(1) -->
+        <!-- <arg name="init_x" value="96.5143"/>
+        <arg name="init_y" value="22.3414"/>
+        <arg name="init_yaw" value="-1.62155"/>
+
+        <arg name="target_x" value="90.5741"/>
+        <arg name="target_y" value="245.341"/>
+        <arg name="target_yaw" value="4.77552"/>  -->
+
+        <arg name="repeat"  value = "false" />
+
+        <arg name="map_size_x" value="$(arg map_size_x)"/>
+        <arg name="map_size_y" value="$(arg map_size_y)"/>
+        <arg name="map_size_z" value="$(arg map_size_z)"/>
+
+        <arg name="localmap_size_x" value="$(arg localmap_size_x)"/>
+        <arg name="localmap_size_y" value="$(arg localmap_size_y)"/>
+        <arg name="localmap_size_z" value="$(arg localmap_size_z)"/>
+
+        <arg name="origin_x" value="$(arg origin_x)"/>
+        <arg name="origin_y" value="$(arg origin_y)"/>
+        <arg name="origin_z" value="$(arg origin_z)"/>
+
+        <arg name="lidar_height" value="$(arg lidar_height)"/>
+        
+        <arg name="odom_topic" value="/car_5/odometry"/>
+        <arg name="lidar_topic" value="/car_5_laser_simulator/car_5_local_pointcloud"/>
+
+        <arg name="map_pub_topic" value="/car_5/map"/>
+    </include>
+<include file="$(find traj_planner)/launch/run_in_sim.launch">
+        <arg name="cars_num" value="$(arg cars_num)" />
+        <arg name="car_id" value="6"/>
+        <arg name="car_width" value="1.75"/>
+        <arg name="car_length" value="2.65"/>
+        <arg name="car_wheelbase" value="2.00"/>
+        <arg name="car_front_suspension" value="0.93"/>
+        <arg name="car_rear_suspension" value="1.10"/>
+        <arg name="car_max_steering_angle" value="45.0"/>
+        <arg name="car_d_cr" value="0.675"/>
+        
+        <!-- <arg name="init_x" value="12.5"/>
+        <arg name="init_y" value="40.0"/>
+        <arg name="init_yaw" value="-1.57"/>
+
+        <arg name="target_x" value="-12.5"/>
+        <arg name="target_y" value="-40.0"/>
+        <arg name="target_yaw" value="-1.57"/> -->
+
+ <!-- 00_8-->
+        <!-- <arg name="init_x" value="28.3617"/>
+        <arg name="init_y" value="247.736"/>
+        <arg name="init_yaw" value="-4.83766"/>
+
+        <arg name="target_x" value="32.1599"/>
+        <arg name="target_y" value="102.175"/>
+        <arg name="target_yaw" value="1.63462"/> -->
+<!-- 00_8(1)-->
+        <arg name="init_x" value="131.975"/>
+        <arg name="init_y" value="56.951  "/>
+        <arg name="init_yaw" value="-6.20336"/>
+
+        <arg name="target_x" value="291.818 "/>
+        <arg name="target_y" value="108.626 "/>
+        <arg name="target_yaw" value="5.87077"/>
+<!-- 00_8(3) -->
+        <!-- <arg name="init_x" value="19.1776"/>
+        <arg name="init_y" value="224.265"/>
+        <arg name="init_yaw" value="-4.37114e-08"/>
+
+        <arg name="target_x" value="244.082"/>
+        <arg name="target_y" value="195.762"/>
+        <arg name="target_yaw" value="1.08991"/> -->
+<!-- 6-8 -->
+        <!-- <arg name="init_x" value="247.785"/>
+        <arg name="init_y" value="115.038"/>
+        <arg name="init_yaw" value="-3.22142"/>
+
+        <arg name="target_x" value="133.351"/>
+        <arg name="target_y" value="39.5745"/>
+        <arg name="target_yaw" value="1.5708"/>  -->
+<!-- 6-8(2) -->
+        <!-- <arg name="init_x" value="293.774"/>
+        <arg name="init_y" value="113.906 "/>
+        <arg name="init_yaw" value=" -3.16144"/>
+
+        <arg name="target_x" value="138.389  "/>
+        <arg name="target_y" value="95.8208 "/>
+        <arg name="target_yaw" value=" 3.15381"/>  -->
+<!-- 6-8(3) -->
+        <!-- <arg name="init_x" value="176.81"/>
+        <arg name="init_y" value="79.4878 "/>
+        <arg name="init_yaw" value="-1.62955"/>
+
+        <arg name="target_x" value="128.57  "/>
+        <arg name="target_y" value="240.392 "/>
+        <arg name="target_yaw" value="4.77292"/>  -->
+<!-- 6-8(advanceold) -->
+        <!-- <arg name="init_x" value="240.889"/>
+        <arg name="init_y" value=" 83.3963"/>
+        <arg name="init_yaw" value="-1.77482"/>
+
+        <arg name="target_x" value="140.254"/>
+        <arg name="target_y" value="103.058"/>
+        <arg name="target_yaw" value="3.09401"/>  -->
+<!-- 6-8(advance) -->
+        <!-- <arg name="init_x" value="153.756"/>
+        <arg name="init_y" value=" 347.444"/>
+        <arg name="init_yaw" value="-4.69387"/>
+
+        <arg name="target_x" value="227.167"/>
+        <arg name="target_y" value="194.255"/>
+        <arg name="target_yaw" value="0.761901"/>  -->
+<!-- 8-7 -->
+        <!-- <arg name="init_x" value="325.641"/>
+        <arg name="init_y" value="57.2233"/>
+        <arg name="init_yaw" value="-1.5708"/>
+
+        <arg name="target_x" value="314.522"/>
+        <arg name="target_y" value="238.457"/>
+        <arg name="target_yaw" value="4.62565"/>  -->
+<!-- 8-8 -->
+        <!-- <arg name="init_x" value="288.874"/>
+        <arg name="init_y" value="260.346"/>
+        <arg name="init_yaw" value="-4.55462"/>
+
+        <arg name="target_x" value="281.898"/>
+        <arg name="target_y" value="73.0681"/>
+        <arg name="target_yaw" value="1.53236"/>  -->
+<!-- 8-8(1) -->
+        <!-- <arg name="init_x" value="57.9062"/>
+        <arg name="init_y" value="49.8981"/>
+        <arg name="init_yaw" value="-0.183111"/>
+
+        <arg name="target_x" value="162.414"/>
+        <arg name="target_y" value="87.9463"/>
+        <arg name="target_yaw" value="6.28318"/>  -->
+
+        <arg name="repeat"  value = "false" />
+
+        <arg name="map_size_x" value="$(arg map_size_x)"/>
+        <arg name="map_size_y" value="$(arg map_size_y)"/>
+        <arg name="map_size_z" value="$(arg map_size_z)"/>
+
+        <arg name="origin_x" value="$(arg origin_x)"/>
+        <arg name="origin_y" value="$(arg origin_y)"/>
+        <arg name="origin_z" value="$(arg origin_z)"/>
+        <arg name="localmap_size_x" value="$(arg localmap_size_x)"/>
+        <arg name="localmap_size_y" value="$(arg localmap_size_y)"/>
+        <arg name="localmap_size_z" value="$(arg localmap_size_z)"/>
+        <arg name="lidar_height" value="$(arg lidar_height)"/>
+        
+        <arg name="odom_topic" value="/car_6/odometry"/>
+        <arg name="lidar_topic" value="/car_6_laser_simulator/car_6_local_pointcloud"/>
+
+        <arg name="map_pub_topic" value="/car_6/map"/>
+    </include>
+    <include file="$(find traj_planner)/launch/run_in_sim.launch">
+        <arg name="cars_num" value="$(arg cars_num)" />
+        <arg name="car_id" value="7"/>
+        <arg name="car_width" value="1.75"/>
+        <arg name="car_length" value="2.65"/>
+        <arg name="car_wheelbase" value="2.00"/>
+        <arg name="car_front_suspension" value="0.93"/>
+        <arg name="car_rear_suspension" value="1.10"/>
+        <arg name="car_max_steering_angle" value="45.0"/>
+        <arg name="car_d_cr" value="0.675"/>
+        <arg name="repeat"  value = "false" />
+        
+        <!-- <arg name="init_x" value="35.0"/>
+        <arg name="init_y" value="40.0"/>
+        <arg name="init_yaw" value="-1.57"/>
+
+        <arg name="target_x" value="-35.0"/>
+        <arg name="target_y" value="-40.0"/>
+        <arg name="target_yaw" value="-1.57"/> -->
+
+ <!-- 00_8 -->
+        <!-- <arg name="init_x" value="77.1895"/>
+        <arg name="init_y" value="33.8488"/>
+        <arg name="init_yaw" value="-6.26533"/>
+
+        <arg name="target_x" value="210.404"/>
+        <arg name="target_y" value="59.8549"/>
+        <arg name="target_yaw" value="0.0106384"/> -->
+<!-- 00_8(1)-->
+        <arg name="init_x" value="340.578"/>
+        <arg name="init_y" value=" 172.222 "/>
+        <arg name="init_yaw" value="-3.32574"/>
+
+        <arg name="target_x" value="135.631"/>
+        <arg name="target_y" value="95.5702"/>
+        <arg name="target_yaw" value="3.11021"/>
+<!-- 00_8(3) -->
+        <!-- <arg name="init_x" value="23.3258"/>
+        <arg name="init_y" value="83.2731"/>
+        <arg name="init_yaw" value="-1.5708"/>
+
+        <arg name="target_x" value="29.9491"/>
+        <arg name="target_y" value="247.53"/>
+        <arg name="target_yaw" value=" 4.7837"/> -->
+<!-- 6-8 -->
+        <!-- <arg name="init_x" value="127.137"/>
+        <arg name="init_y" value="37.977"/>
+        <arg name="init_yaw" value="-1.50194"/>
+
+        <arg name="target_x" value="211.339"/>
+        <arg name="target_y" value="191.936"/>
+        <arg name="target_yaw" value="6.2014"/>  -->
+<!-- 6-8(2) -->
+        <!-- <arg name="init_x" value="166.676"/>
+        <arg name="init_y" value=" 74.0252"/>
+        <arg name="init_yaw" value="-1.61268"/>
+
+        <arg name="target_x" value="59.3674  "/>
+        <arg name="target_y" value="237.185 "/>
+        <arg name="target_yaw" value="3.45056"/>  -->
+<!-- 6-8(3) -->
+        <!-- <arg name="init_x" value="141.329"/>
+        <arg name="init_y" value=" 120.56 "/>
+        <arg name="init_yaw" value="-1.59857"/>
+
+        <arg name="target_x" value="154.975  "/>
+        <arg name="target_y" value="333.816 "/>
+        <arg name="target_yaw" value=" 4.71239"/>  -->
+<!-- 6-8(advanceold) -->
+        <!-- <arg name="init_x" value="156.976"/>
+        <arg name="init_y" value=" 83.9081"/>
+        <arg name="init_yaw" value="-1.5563"/>
+
+        <arg name="target_x" value="140.254"/>
+        <arg name="target_y" value="103.058"/>
+        <arg name="target_yaw" value="3.09401"/>  -->
+<!-- 6-8(advance) -->
+        <!-- <arg name="init_x" value="30.1154"/>
+        <arg name="init_y" value="244.842"/>
+        <arg name="init_yaw" value="-6.0382"/>
+
+        <arg name="target_x" value="171.03"/>
+        <arg name="target_y" value="148.679"/>
+        <arg name="target_yaw" value="1.52696"/>  -->
+<!-- 8-8 -->
+        <!-- <arg name="init_x" value="242.189"/>
+        <arg name="init_y" value="203.465"/>
+        <arg name="init_yaw" value="-5.21174"/>
+
+        <arg name="target_x" value="328.584"/>
+        <arg name="target_y" value="56.9697"/>
+        <arg name="target_yaw" value="0.851973"/>  -->
+<!-- 8-8(1) -->
+        <!-- <arg name="init_x" value="88.6612"/>
+        <arg name="init_y" value="121.353"/>
+        <arg name="init_yaw" value="-0.0825699"/>
+
+        <arg name="target_x" value="282.154"/>
+        <arg name="target_y" value=" 121.17"/>
+        <arg name="target_yaw" value="0.0434502"/>  -->
+
+        <arg name="map_size_x" value="$(arg map_size_x)"/>
+        <arg name="map_size_y" value="$(arg map_size_y)"/>
+        <arg name="map_size_z" value="$(arg map_size_z)"/>
+        <arg name="localmap_size_x" value="$(arg localmap_size_x)"/>
+        <arg name="localmap_size_y" value="$(arg localmap_size_y)"/>
+        <arg name="localmap_size_z" value="$(arg localmap_size_z)"/>
+        <arg name="origin_x" value="$(arg origin_x)"/>
+        <arg name="origin_y" value="$(arg origin_y)"/>
+        <arg name="origin_z" value="$(arg origin_z)"/>
+
+        <arg name="lidar_height" value="$(arg lidar_height)"/>
+        
+        <arg name="odom_topic" value="/car_7/odometry"/>
+        <arg name="lidar_topic" value="/car_7_laser_simulator/car_7_local_pointcloud"/>
+
+        <arg name="map_pub_topic" value="/car_7/map"/>
+    </include>
+   
+
+  </launch>

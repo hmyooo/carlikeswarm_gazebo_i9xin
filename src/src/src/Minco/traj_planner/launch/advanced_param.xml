@@ -1,0 +1,224 @@
+<launch>
+  <arg name="cars_num"/>
+  <arg name="car_id"/>  
+  <arg name="car_width"/>
+  <arg name="car_length"/>
+  <arg name="car_wheelbase"/>
+  <arg name="car_front_suspension"/>
+  <arg name="car_rear_suspension"/>
+  <arg name="car_max_steering_angle"/>
+  <arg name="car_d_cr"/>  
+  
+  <arg name="map_size_x"/>
+  <arg name="map_size_y"/>
+  <arg name="map_size_z"/>
+
+  <arg name="localmap_size_x"/>
+  <arg name="localmap_size_y"/>
+  <arg name="localmap_size_z"/>
+
+  <arg name="origin_x"/>
+  <arg name="origin_y"/>
+  <arg name="origin_z"/>
+
+  <arg name="target_x"/>
+  <arg name="target_y"/>
+  <arg name="target_yaw"/>
+  
+  <arg name="repeat"/>
+
+
+
+  <arg name="odometry_topic"/>
+  <arg name="lidar_topic"/>
+  <arg name="map_pub_topic"/>
+
+  <arg name="lidar_height"/>
+
+  <arg name="max_vel"/>
+  <arg name="max_acc"/>
+  <arg name="max_cur"/>
+  <!-- <arg name="planning_horizon"/> -->
+
+
+  
+  <!-- main node -->
+  <node pkg="traj_planner" name="car_$(arg car_id)_planner_node" type="planner_node" output="screen">  
+    <!-- planning fsm -->
+    <param name="vehicle/cars_num" value="$(arg cars_num)" />
+    <param name="vehicle/car_id"  value="$(arg car_id)" />
+    <param name="vehicle/car_width"  value="$(arg car_width)" />
+    <param name="vehicle/car_length"  value="$(arg car_length)" />
+    <param name="vehicle/car_wheelbase"  value="$(arg car_wheelbase)" />
+    <param name="vehicle/car_front_suspension"  value="$(arg car_front_suspension)" />
+    <param name="vehicle/car_rear_suspension"  value="$(arg car_rear_suspension)" />
+    <param name="vehicle/car_max_steering_angle"  value="$(arg car_max_steering_angle)" />
+    <param name="vehicle/car_d_cr"  value="$(arg car_d_cr)" />
+
+
+    <param name="mapping/resolution"      value="0.3" /> 
+    <param name="mapping/map_size_x"   value="$(arg map_size_x)" /> 
+    <param name="mapping/map_size_y"   value="$(arg map_size_y)" /> 
+    <param name="mapping/map_size_z"   value="$(arg map_size_z)" /> 
+    <param name="mapping/origin_x"   value="$(arg origin_x)" /> 
+    <param name="mapping/origin_y"   value="$(arg origin_y)" /> 
+    <param name="mapping/origin_z"   value="$(arg origin_z)" /> 
+    
+    <param name="mapping/local_size_x"   value="$(arg localmap_size_x)" /> 
+    <param name="mapping/local_size_y"   value="$(arg localmap_size_y)" /> 
+    <param name="mapping/local_size_z"   value="$(arg localmap_size_z)" /> 
+    <param name="mapping/odometry_topic" value="$(arg odometry_topic)"/>
+    <param name="mapping/lidar_topic" value="$(arg lidar_topic)"/>
+    <param name="mapping/map_pub_topic" value="$(arg map_pub_topic)"/>
+
+    <param name="mapping/lidar_height" value="$(arg lidar_height)"/>
+    <param name="mapping/dynamic_obs_topic_" value="/dy_obs_posepath"/>
+    <!-- <param name="mapping/dynamictrue_obs_topic_" value="/dy_obs_generater/obstacle_info"/> -->
+    <param name="mapping/dynamictrue_obs_topic_" value="/dyobstacleset"/>
+    <param name="mapping/pedestrian_topic_" value="/pedsim_simulator/simulated_agents"/>
+    <param name="mapping/detection_pedestrian_topic_" value="/kinematics_car_$(arg car_id)/detected_poses"/>
+
+    <param name="mapping/origin_gazebo_x" value="-1.0"/>
+    <param name="mapping/origin_gazebo_y" value="-1.0"/>
+    <param name="mapping/resolutionforgazebo" value="0.05"/>
+
+
+		<param name="mapping/prob_hit_log" value="1.2" />
+		<param name="mapping/prob_miss_log" value="-0.3" />
+		<param name="mapping/clamp_min_log" value="-2.0" />
+		<param name="mapping/clamp_max_log" value="2.0" />
+		<param name="mapping/min_occupancy_log" value="1.39" />
+
+    <param name="mapping/min_ray_length" value="0.0"/>
+    <param name="mapping/max_ray_length" value="50.0"/>
+    <param name="mapping/frame_id"      value="map"/>
+    <param name="fsm/repeat"  value="$(arg repeat)" />
+    <param name="mapping/max_obs_length_" value="50.0"/>
+    <!-- <param name="mapping/obs_num" value="704"/> -->
+    <param name="mapping/obs_num" value="704"/>
+
+    <!-- 改 -->
+    <param name="mapping/time_resolution_" value="1.0"/>
+
+
+    <param name="fsm/dis_interval"      value="1.0"/>
+    <param name="fsm/time_interval"      value="1.0"/>
+
+    <param name="fsm/target_x"  value="$(arg target_x)" />
+    <param name="fsm/target_y"  value="$(arg target_y)" />    
+    <param name="fsm/target_yaw" value="$(arg target_yaw)" />
+    <param name="fsm/path_yaml" type = "string" value = "/home/robot/hmy/test_cailiao/social_contexts_house_output(1).yaml" />
+    <param name="fsm/corrid_yaml" type = "string" value = "/home/robot/hmy/test_cailiao/social_contexts_house_corrid(1).yaml" />
+
+    <!-- <param name="fsm/obstcalnum"  value="5" />
+    <param name="fsm/maxX"  value="600" />
+    <param name="fsm/maxY"  value="450" /> -->
+    <param name="time_outputfilm" type = "string" value = "/home/rancho/1hmy/Car-like-Robotic-swarm/record/decentpath/exp/gazebo_time" />
+
+
+    <param name="planning/car_id"  value="$(arg car_id)" />
+    <!-- <param name="planning/traj_piece_duration" value="1.0"/>
+    <param name="planning/traj_res" value="8"/>
+    <param name="planning/dense_traj_res" value="20"/> -->
+
+    <param name="planning/traj_piece_duration" value="0.8"/>
+    <param name="planning/traj_res" value="9"/>
+    <param name="planning/dense_traj_res" value="20"/>
+    
+    <!-- <param name="planning/add_b" value="1.2"/>
+
+    <param name="search/prio1_corrid_wei"         value="1.0"/>
+    <param name="search/prio1_global_wei"         value="0.8"/>
+    <param name="search/prio2_global_wei"         value="0.5"/>
+    <param name="search/prio2_corrid_wei"         value="2.0"/>
+    <param name="search/prio2_time1_wei"          value="0.5"/>
+    <param name="search/prio2_time2_wei"          value="0.5"/>
+    <param name="search/smallervec_"               value="2.0"/> -->
+    <!-- <param name="planning/outputfilm" type = "string" value = "/home/rancho/1hmy/Car-like-Robotic-swarm/record/decentpath/0_8(1)" /> -->
+
+
+    <param name="planning/add_b" value="1.1"/>
+
+    <param name="search/prio1_corrid_wei"         value="0.1"/>
+    <param name="search/prio1_global_wei"         value="0.1"/>
+    <param name="search/prio2_global_wei"         value="0.1"/>
+    <param name="search/prio2_corrid_wei"         value="0.1"/>
+    <param name="search/prio2_time1_wei"          value="1.0"/>
+    <param name="search/prio2_time2_wei"          value="0.4"/>
+    <param name="search/smallervec_"               value="2.0"/>
+
+    <param name="search/horizon"                   value="50"/>
+    <param name="search/yaw_resolution"            value="0.3"/>
+    <param name="search/lambda_heu"                value="2.0"/>
+    <param name="search/allocate_num"              value="100000"/>
+    <param name="search/check_num"                 value="5"/>
+    <param name="search/max_search_time"           value="1000.1"/>
+    <param name="search/traj_forward_penalty"      value="1.0"/>
+    <param name="search/traj_back_penalty"         value="2.5"/>
+    <param name="search/traj_gear_switch_penalty"  value="15.0"/>
+    <param name="search/traj_steer_penalty"        value="0.5"/>
+    <param name="search/traj_steer_change_penalty" value="0.0"/>
+    <param name="search/step_arc"                  value="0.1"/>
+    <param name="search/checkl"                    value="0.9"/>
+    <param name="search/yaw_penalty"               value="0.00000000000000000001"/>
+    <param name="search/pos_penalty"               value="0.00000000000000000001"/>
+    <!-- <param name="search/localtarget_findnum"       value="2"/>
+    <param name="search/truncate_len"       value="20"/>
+    <param name="search/radius_add"               value="2.0"/> -->
+
+
+    <param name="search/localtarget_findnum"       value="6"/>
+    <param name="search/truncate_len"       value="20"/>
+    <param name="search/radius_add"               value="2.0"/>
+
+
+    <param name="search/trac_yaml" type = "string" value = "/home/rancho/1hmy/kinematic-cbs/input/trac.yaml" />
+
+
+
+
+    <param name="search/outputfilm" type = "string" value = "/home/rancho/1hmy/Car-like-Robotic-swarm/record/decentpath/exp1/6_8" />
+
+    <param name="search/max_vel" value="2.0" />
+    <param name="search/max_acc" value="1.5" />
+    <!-- <param name="search/max_vel" value="0.8" />
+    <param name="search/max_acc" value="0.2" /> -->
+    <param name="search/max_cur" value="$(arg max_cur)" />
+
+    <param name="search/time_resolution" value="0.1" />
+    <param name="search/distance_resolution" value="0.1" />
+    <param name="search/velocity_resolution" value="1.0" />
+
+    <param name="optimizing/traj_resolution"       value="8"/> 
+    <param name="optimizing/des_traj_resolution"   value="20"/> 
+    <param name="optimizing/wei_sta_obs"           value="7000.0"/> 
+    <param name="optimizing/wei_sta_obs2"           value="1.0"/> 
+
+    <param name="optimizing/wei_dyn_obs"           value="8000.0"/> 
+    <param name="optimizing/wei_feas"              value="10000.0"/> 
+    <param name="optimizing/wei_sqrvar"            value="10000.0"/> 
+    <param name="optimizing/wei_time"              value="500.0"/> 
+    <!-- <param name="optimizing/wei_time"              value="0.1"/>  -->
+
+    <param name="optimizing/dyn_obs_clearance"     value="1.0"/> 
+    <param name="optimizing/max_vel"               value="$(arg max_vel)"/> 
+    <param name="optimizing/min_vel"               value="-$(arg max_vel)"/> 
+    <param name="optimizing/max_acc"               value="$(arg max_acc)"/> 
+    <param name="optimizing/min_acc"               value="-$(arg max_acc)"/> 
+    <param name="optimizing/max_cur"               value="$(arg max_cur)"/> 
+    <param name="optimizing/traj_piece_duration"   value="1.0"/> 
+    <param name="optimizing/max_low_vel"           value="16.0"/> 
+    <param name="optimizing/max_low_acc"           value="2.5"/> 
+    <param name="optimizing/half_margin"           value="0.25"/> 
+
+  </node>
+
+
+  <!-- <node pkg ="detection_pedestrian" name ="car_$(arg car_id)_decet_peds_yolo" type ="decet_peds_yolo.py" output = "screen" >
+      <param name="detection_map/subname" value="/kinematics_car_$(arg car_id)_simulator_node/camera/rgb/image_raw"/>
+      <param name="detection_map/pubname" value="/kinematics_car_$(arg car_id)/detected_poses"/>
+  </node> -->
+
+
+
+</launch>
