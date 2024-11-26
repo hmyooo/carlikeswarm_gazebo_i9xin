@@ -1424,7 +1424,7 @@ void MappingProcess::dy_pedobstmap(const Eigen::Vector2d& t_wc,const std::vector
         Eigen::Vector3d fu_pos;
         fu_pos(0)=last_pos(0)+velocity(0)*time_resolution_;
         fu_pos(1)=last_pos(1)+velocity(1)*time_resolution_;
-        fu_pos(2)=time;
+        fu_pos(2)=time*time_resolution_;
         posToIndex_obs(fu_pos, idx,t_wc);
         if(isInMap_obs_s(idx))
         {
