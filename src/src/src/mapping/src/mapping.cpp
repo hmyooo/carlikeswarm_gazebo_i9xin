@@ -395,7 +395,7 @@ current_dy_box.clear();
         record_box.position_=dyobstacle_pos;
         record_box.velocity_<<0,0;
         record_box.yaw=0;
-        std::cout<<"dyobs_map size "<<last_cur_ped_map.dyobs_map[id].size()<<endl;
+        // std::cout<<"dyobs_map size "<<last_cur_ped_map.dyobs_map[id].size()<<endl;
         
         if(last_cur_ped_map.dyobs_map[id].size()>5)
         {
@@ -430,7 +430,7 @@ current_dy_box.clear();
     }
 
     }
-std::cout<<"ped_dy_obs_id size is "<<ped_dy_obs_id.size()<<endl;
+// std::cout<<"ped_dy_obs_id size is "<<ped_dy_obs_id.size()<<endl;
 ped_dy_obs_id.clear();
 
 if(imap)
@@ -1431,18 +1431,18 @@ void MappingProcess::dy_pedobstmap(const Eigen::Vector2d& t_wc,const std::vector
             spatio_space_map[idx(1) * localmapsize(0) + idx(0)+idx(2) * localmapsize(0)* localmapsize(1)]=1.0;
             xyt_space_map.push_back(fu_pos);
 
-        //     for(int j=-5;j<=5;j++)//未来膨胀
-        // {
-        //     for(int k=-5;k<=5;k++)
-        // {
-        //     idx(0)+=j;
-        //     idx(1)+=k;
-        // if(isInMap_obs_s(idx))
-        // {spatio_space_map[idx(1) * localmapsize(0) + idx(0)+idx(2) * localmapsize(0)* localmapsize(1)]=1.0;}
+            for(int j=-4;j<=4;j++)//未来膨胀
+        {
+            for(int k=-4;k<=4;k++)
+        {
+            idx(0)+=j;
+            idx(1)+=k;
+        if(isInMap_obs_s(idx))
+        {spatio_space_map[idx(1) * localmapsize(0) + idx(0)+idx(2) * localmapsize(0)* localmapsize(1)]=1.0;}
 
-        // }
+        }
 
-        // }   
+        }   
         }
 
 
@@ -1461,6 +1461,7 @@ void MappingProcess::dy_pedobstmap(const Eigen::Vector2d& t_wc,const std::vector
 void MappingProcess::dyobstmap(const Eigen::Vector2d& t_wc,const std::vector<std::deque<dynamic_trueobs>> dyobs_map ,const std::vector<int>& dyobs_id)
 {
   
+    fill(spatio_space_map.begin(), spatio_space_map.end(), -1.0);
     
     // ifokmap=false;
       for(int i=0; i<dyobs_id.size(); i++)  //历史轨迹，带有预测和膨胀的时空地图

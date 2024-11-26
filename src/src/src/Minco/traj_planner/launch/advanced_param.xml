@@ -181,10 +181,10 @@
 
     <param name="search/outputfilm" type = "string" value = "/home/rancho/1hmy/Car-like-Robotic-swarm/record/decentpath/exp1/6_8" />
 
-    <param name="search/max_vel" value="2.0" />
-    <param name="search/max_acc" value="1.5" />
-    <!-- <param name="search/max_vel" value="0.8" />
-    <param name="search/max_acc" value="0.2" /> -->
+    <!-- <param name="search/max_vel" value="2.0" />
+    <param name="search/max_acc" value="1.5" /> -->
+    <param name="search/max_vel" value="0.8" />
+    <param name="search/max_acc" value="0.2" />
     <param name="search/max_cur" value="$(arg max_cur)" />
 
     <param name="search/time_resolution" value="0.1" />
