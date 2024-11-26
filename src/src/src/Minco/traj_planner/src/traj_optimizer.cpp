@@ -35,7 +35,7 @@ namespace plan_manage
   
 
     for(int i = 0; i < trajnum; i++){
-      foropt_map_ptr_->set_dynamic();
+      // foropt_map_ptr_->set_dynamic();
       fill(foropt_map_ptr_->spatio_space_map.begin(), foropt_map_ptr_->spatio_space_map.end(), -1.0);
       // cout<<"1111111"<<endl;
       Eigen::Vector2d start_pos;

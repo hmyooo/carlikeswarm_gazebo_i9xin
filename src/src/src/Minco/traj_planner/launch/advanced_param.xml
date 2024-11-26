@@ -93,9 +93,11 @@
     <param name="mapping/max_ray_length" value="50.0"/>
     <param name="mapping/frame_id"      value="map"/>
     <param name="fsm/repeat"  value="$(arg repeat)" />
-    <param name="mapping/max_obs_length_" value="50.0"/>
+    <param name="mapping/max_obs_length_" value="10.0"/>
     <!-- <param name="mapping/obs_num" value="704"/> -->
-    <param name="mapping/obs_num" value="704"/>
+    <!-- <param name="mapping/obs_num" value="704"/> -->
+    <param name="mapping/obs_num" value="31"/>
+
 
     <!-- 改 -->
     <param name="mapping/time_resolution_" value="1.0"/>

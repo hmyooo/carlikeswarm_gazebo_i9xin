@@ -29,6 +29,7 @@ add_message_files(
   AgentStates.msg
   AgentState.msg
   AgentForce.msg
+  onestate.msg
 )
 # add_service_files(
 #   FILES

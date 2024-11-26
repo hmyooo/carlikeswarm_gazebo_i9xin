@@ -106,7 +106,9 @@ void MappingProcess::init(const ros::NodeHandle& nh)
     // dynamicobs one_obst; 
     // dy_obs_id.resize(obs_num);
     last_cur_map.dyobs_map.resize(obs_num);
-    resetdyobstacs(obs_num);
+    last_cur_ped_map.dyobs_map.resize(obs_num);
+
+    // resetdyobstacs(obs_num);
     // resetdyobstacs(obs_num);
     // cout<<"dyobstacs[1].obs_id_  "<<dyobstacs[1].obs_id_<<endl;
     // cout<<"dyobstacs[2].obs_id_  "<<dyobstacs[2].obs_id_<<endl;
@@ -174,37 +176,39 @@ void MappingProcess::init(const ros::NodeHandle& nh)
 }
 void MappingProcess::resetdyobstacs(const int obsnum)
 {
-    // if(obsnum<=obs_num)
+ 
+    // for(int i=0;i<last_cur_map.dyobs_map.size();i++)
     // {
-    for(int i=0;i<last_cur_map.dyobs_map.size();i++)
+    //     last_cur_map.dyobs_map[i].resize(6);
+    //     for(int j=0;j<6;j++)
+    //     {
+    //         last_cur_map.dyobs_map[i].at(j).his_time=0.0;
+    //         last_cur_map.dyobs_map[i].at(j).one_obst.id=0;
+    //         last_cur_map.dyobs_map[i].at(j).one_obst.maxX=0.0;
+    //         last_cur_map.dyobs_map[i].at(j).one_obst.maxY=0.0;
+    //         last_cur_map.dyobs_map[i].at(j).one_obst.minX=0.0;
+    //         last_cur_map.dyobs_map[i].at(j).one_obst.minY=0.0;
+    //     }
+        
+    // }
+
+
+
+    for(int i=0;i<last_cur_ped_map.dyobs_map.size();i++)
     {
-        last_cur_map.dyobs_map[i].resize(6);
+        last_cur_ped_map.dyobs_map[i].resize(6);
         for(int j=0;j<6;j++)
         {
-            last_cur_map.dyobs_map[i].at(j).his_time=0.0;
-            last_cur_map.dyobs_map[i].at(j).one_obst.id=0;
-            last_cur_map.dyobs_map[i].at(j).one_obst.maxX=0.0;
-            last_cur_map.dyobs_map[i].at(j).one_obst.maxY=0.0;
-            last_cur_map.dyobs_map[i].at(j).one_obst.minX=0.0;
-            last_cur_map.dyobs_map[i].at(j).one_obst.minY=0.0;
-
-
-
-
+            last_cur_ped_map.dyobs_map[i].at(j).his_time=0.0;
+            last_cur_ped_map.dyobs_map[i].at(j).agentstate.id=0;
+            last_cur_ped_map.dyobs_map[i].at(j).agentstate.x=0.0;
+            last_cur_ped_map.dyobs_map[i].at(j).agentstate.y=0.0;
 
         }
         
     }
 
 
-    // }
-//     else
-//     {
-//  //添加
-//     obs_num=obsnum;
-
-
-//     }
   
 
 
@@ -251,7 +255,7 @@ void MappingProcess::set_dynamic()
 {
 
 have_dynamic_=true;
-pedesagents_set.clear();
+// pedesagents_set.clear();
 
 }
 void MappingProcess::stuct_dy_map(const Eigen::Vector2d& t_wc)
@@ -259,6 +263,8 @@ void MappingProcess::stuct_dy_map(const Eigen::Vector2d& t_wc)
 last_cur_map.curr_position=t_wc;
 bool imap=false;
 current_dy_box.clear();
+std::cout<<"dyobstacle_set size is "<<dyobstacle_set.size()<<endl;
+
  for(int j=0;j<dyobstacle_set.size();j++)//同一帧的不同物体
     {
     one_dyob=dyobstacle_set[0];
@@ -273,7 +279,9 @@ current_dy_box.clear();
         one_treu_obs.one_obst=dyobstacle_set[j];
         one_treu_obs.his_time=ros::Time::now().toSec();
         last_cur_map.dyobs_map[dyobstacle_set[j].id].push_back(one_treu_obs);
-        imap=true;
+        
+        std::cout<<"dy_obs_id is "<<dyobstacle_set[j].id<<endl;
+
         dy_obs_id.push_back(dyobstacle_set[j].id);
         if(last_cur_map.dyobs_map[dyobstacle_set[j].id].size()>6)
         {
@@ -285,8 +293,10 @@ current_dy_box.clear();
         record_box.position_=dyobstacle_pos;
         record_box.velocity_<<0,0;
         record_box.yaw=0;
+
         if(last_cur_map.dyobs_map[dyobstacle_set[j].id].size()>1)
         {
+        imap=true;
         Eigen::Vector2d last_pos,first_pos;
         double dtimel;
         last_pos<<(last_cur_map.dyobs_map[dyobstacle_set[j].id].back().one_obst.maxX+last_cur_map.dyobs_map[dyobstacle_set[j].id].back().one_obst.minX)/2,(last_cur_map.dyobs_map[dyobstacle_set[j].id].back().one_obst.maxY+last_cur_map.dyobs_map[dyobstacle_set[j].id].back().one_obst.minY)/2;
@@ -350,24 +360,32 @@ void MappingProcess::ped_dy_map(const Eigen::Vector2d& t_wc)
 last_cur_ped_map.curr_position=t_wc;
 bool imap=false;
 current_dy_box.clear();
+
  for(int j=0;j<pedesagents_set.size();j++)//同一帧的不同物体
     {
     one_dyped=pedesagents_set[0];
     Eigen::Vector2d dyobstacle_pos;
     dyobstacle_pos<<pedesagents_set[j].pose.position.x,pedesagents_set[j].pose.position.y;
     double search_distance=sqrt(pow(t_wc[0]-dyobstacle_pos[0],2)+pow(t_wc[1]-dyobstacle_pos[1],2));
-   
-    if(search_distance<=max_obs_length_)//!!!!!!!!!!!!!!!!!!!
+
+    if(search_distance<max_obs_length_)
     {
-        
+
         ped_dynamic_trueobs one_treu_obs;
         dy_box record_box;
-        one_treu_obs.one_agentstate=pedesagents_set[j];
+        // one_treu_obs.one_agentstate=pedesagents_set[j];
+
+        one_treu_obs.agentstate.x=pedesagents_set[j].pose.position.x;
+        one_treu_obs.agentstate.y=pedesagents_set[j].pose.position.y;
+        one_treu_obs.agentstate.id=pedesagents_set[j].id;
+        int id=one_treu_obs.agentstate.id;
         one_treu_obs.his_time=pedesagents_set[j].header.stamp.toSec();
-        last_cur_ped_map.dyobs_map[pedesagents_set[j].id].push_back(one_treu_obs);
-        imap=true;
+
+        last_cur_ped_map.dyobs_map[id].push_back(one_treu_obs);
+        
+
         ped_dy_obs_id.push_back(pedesagents_set[j].id);
-        if(last_cur_ped_map.dyobs_map[pedesagents_set[j].id].size()>6)
+        if(last_cur_ped_map.dyobs_map[id].size()>8)
         {
 
         last_cur_ped_map.dyobs_map[pedesagents_set[j].id].pop_front();
@@ -377,19 +395,33 @@ current_dy_box.clear();
         record_box.position_=dyobstacle_pos;
         record_box.velocity_<<0,0;
         record_box.yaw=0;
-        if(last_cur_ped_map.dyobs_map[pedesagents_set[j].id].size()>1)
+        std::cout<<"dyobs_map size "<<last_cur_ped_map.dyobs_map[id].size()<<endl;
+        
+        if(last_cur_ped_map.dyobs_map[id].size()>5)
         {
+        imap=true;
         Eigen::Vector2d last_pos,first_pos;
         double dtimel;
-        last_pos<<last_cur_ped_map.dyobs_map[pedesagents_set[j].id].back().one_agentstate.pose.position.x,last_cur_ped_map.dyobs_map[pedesagents_set[j].id].back().one_agentstate.pose.position.y;
-        first_pos<<last_cur_ped_map.dyobs_map[pedesagents_set[j].id].front().one_agentstate.pose.position.x,last_cur_ped_map.dyobs_map[dyobstacle_set[j].id].front().one_agentstate.pose.position.y;
-        dtimel=last_cur_ped_map.dyobs_map[pedesagents_set[j].id].back().his_time-last_cur_ped_map.dyobs_map[pedesagents_set[j].id].front().his_time;
+        last_pos<<last_cur_ped_map.dyobs_map[id].back().agentstate.x,last_cur_ped_map.dyobs_map[id].back().agentstate.y;
+        first_pos<<last_cur_ped_map.dyobs_map[id].front().agentstate.x,last_cur_ped_map.dyobs_map[id].front().agentstate.y;
+        dtimel=last_cur_ped_map.dyobs_map[id].back().his_time-last_cur_ped_map.dyobs_map[id].front().his_time;
+
+       
         // cout<<"jkjkjkjkjk"<<endl;
         // double dtime=dyobstacs[i].history_traj.back()(2)-dyobstacs[i].history_traj.front()(2);
         if(dtimel>0)
         {
         record_box.velocity_=(last_pos-first_pos)/dtimel;
         record_box.yaw=atan2((last_pos-first_pos)(1),(last_pos-first_pos)(0));
+        // ofstream ofs;
+        // std::string str11 = "/home/robot/hmy/debugtest/vel";
+        // std::string str1txt=str11+std::to_string(car_id_);
+        // str11=str1txt+".txt";
+        // ofs.open(str11,std::ios::app);
+        // ros::Time t_now = ros::Time::now();
+        // ofs<<"id is "<<record_box.id<<endl;
+        // ofs<<"velocity_ is "<<record_box.velocity_<<endl;
+        // ofs.close();
         }
 
         }
@@ -399,12 +431,12 @@ current_dy_box.clear();
 
     }
 std::cout<<"ped_dy_obs_id size is "<<ped_dy_obs_id.size()<<endl;
+ped_dy_obs_id.clear();
 
-// cout<<"dyobs_map size "<<last_cur_map.dyobs_map.size();
 if(imap)
 {
     dy_pedobstmap(last_cur_ped_map.curr_position,last_cur_ped_map.dyobs_map,ped_dy_obs_id);//更新地图
-    ped_dy_obs_id.clear();
+    
 
 }
 
@@ -681,7 +713,7 @@ void MappingProcess::OdometryAndPointcloudAndPose_cb(const sensor_msgs::PointClo
     // }
     // have_odom_ = true;
     // local_map_valid_ = true;
-    have_dynamic_=true;
+    // have_dynamic_=true;
     // latest_odom_time_ = odom_msg->header.stamp;
     // curr_posi_[0] = odom_msg->pose.pose.position.x;
     // curr_posi_[1] = odom_msg->pose.pose.position.y;
@@ -1367,10 +1399,10 @@ void MappingProcess::dy_pedobstmap(const Eigen::Vector2d& t_wc,const std::vector
  // ifokmap=false;
       for(int i=0; i<dyobs_id.size(); i++)  //历史轨迹，带有预测和膨胀的时空地图
     {
-        Eigen::Vector3i idx;
+            Eigen::Vector3i idx;
 
             Eigen::Vector3d dy_pos_expen;
-            dy_pos_expen<< dyobs_map[i].back().one_agentstate.pose.position.x,dyobs_map[i].back().one_agentstate.pose.position.y;
+            dy_pos_expen<< dyobs_map[i].back().agentstate.x,dyobs_map[i].back().agentstate.y;
             posToIndex_obs(dy_pos_expen, idx,t_wc);
             if(isInMap_obs_s(idx))
             {spatio_space_map[idx(1) * localmapsize(0) + idx(0)+idx(2) * localmapsize(0)* localmapsize(1)]=1.0;}
@@ -1378,8 +1410,8 @@ void MappingProcess::dy_pedobstmap(const Eigen::Vector2d& t_wc,const std::vector
         xyt_space_map.push_back(dy_pos_expen);
         Eigen::Vector2d last_pos,first_pos;
         double dtimel;
-        last_pos<<dyobs_map[i].back().one_agentstate.pose.position.x,dyobs_map[i].back().one_agentstate.pose.position.y;
-        first_pos<<dyobs_map[i].front().one_agentstate.pose.position.x,dyobs_map[i].front().one_agentstate.pose.position.y;;
+        last_pos<<dyobs_map[i].back().agentstate.x,dyobs_map[i].back().agentstate.y;
+        first_pos<<dyobs_map[i].front().agentstate.x,dyobs_map[i].front().agentstate.y;;
         dtimel=dyobs_map[i].back().his_time-dyobs_map[i].front().his_time;
         // cout<<"jkjkjkjkjk"<<endl;
         // double dtime=dyobstacs[i].history_traj.back()(2)-dyobstacs[i].history_traj.front()(2);

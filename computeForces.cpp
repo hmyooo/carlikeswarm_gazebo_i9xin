@@ -54,6 +54,27 @@ Ped::Tvector Ped::Twaypoint::getForce(const Ped::Tagent& agent,
   return force;
 }
 
+Ped::Tvector Ped::Tagent::obstacleForce() const {
+  // obstacle which is closest only
+  Ped::Tvector minDiff;
+  double minDistanceSquared = INFINITY;
+
+  for (const Tobstacle* obstacle : scene->obstacles) {
+    Ped::Tvector closestPoint = obstacle->closestPoint(p);
+    Ped::Tvector diff = p - closestPoint;
+    double distanceSquared = diff.lengthSquared();  // use squared distance to
+    // avoid computing square
+    // root
+    if (distanceSquared < minDistanceSquared) {
+      minDistanceSquared = distanceSquared;
+      minDiff = diff;
+    }
+  }
+
+  double distance = sqrt(minDistanceSquared) - agentRadius;
+  double forceAmount = exp(-distance / forceSigmaObstacle);
+  return forceAmount * minDiff.normalized();
+}
 
 Ped::Tvector Ped::Tagent::socialForce(vector<Tvector> &pos_list,vector<Tvector> &vec_list) const {
   // define relative importance of position vs velocity vector

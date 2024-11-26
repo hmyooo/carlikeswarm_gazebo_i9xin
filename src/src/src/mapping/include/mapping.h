@@ -28,6 +28,7 @@
 #include <mapping/AgentStates.h>
 #include <mapping/AgentState.h>
 #include <mapping/AgentForce.h>
+#include <mapping/onestate.h>
 
 #define INVALID_IDX -1
 class dynamicobs
@@ -90,6 +91,8 @@ public:
     // Eigen::Vector3d position_;
 
     mapping::AgentState one_agentstate;
+    mapping::onestate agentstate;
+
     // std::deque<double> history_traj_time;
 
     double his_time;
