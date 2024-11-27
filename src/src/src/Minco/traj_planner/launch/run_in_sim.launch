@@ -84,10 +84,10 @@
     <arg name="lidar_height" value="$(arg lidar_height)"/>
 
     <!-- maximum velocity and acceleration the car will reach -->
-    <arg name="max_vel" value="0.8" />
-    <arg name="max_acc" value="0.2" />
-    <!-- <arg name="max_vel" value="2.0" />
-    <arg name="max_acc" value="1.5" /> -->
+    <!-- <arg name="max_vel" value="0.8" />
+    <arg name="max_acc" value="0.2" /> -->
+    <arg name="max_vel" value="2.0" />
+    <arg name="max_acc" value="1.5" />
     <arg name="max_cur" value="0.2"/>
 
     <!-- <arg name="planning_horizon" value="7.5" />  -->

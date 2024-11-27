@@ -159,7 +159,7 @@ void MappingProcess::init(const ros::NodeHandle& nh)
 
     // pointcloud_odom_sync_posepath->registerCallback(boost::bind(&MappingProcess::OdometryAndPointcloudAndPose_cb, this, _1, _2,_3));
 
-    // dyobsmap_vis_timer_=nh_.createTimer(ros::Duration(0.3), &MappingProcess::dyobsmap_vis, this);
+    dyobsmap_vis_timer_=nh_.createTimer(ros::Duration(0.3), &MappingProcess::dyobsmap_vis, this);
     // local_occ_vis_timer_ = nh_.createTimer(ros::Duration(0.3), &MappingProcess::localOccVis_cb, this);
     global_occ_vis_timer_ = nh_.createTimer(ros::Duration(0.3), &MappingProcess::globalOccVis_cb, this);
 
@@ -395,7 +395,7 @@ current_dy_box.clear();
         record_box.position_=dyobstacle_pos;
         record_box.velocity_<<0,0;
         record_box.yaw=0;
-        // std::cout<<"dyobs_map size "<<last_cur_ped_map.dyobs_map[id].size()<<endl;
+        // std::cout<<"0dyobs_map size "<<last_cur_ped_map.dyobs_map[id].size()<<endl;
         
         if(last_cur_ped_map.dyobs_map[id].size()>5)
         {
@@ -431,7 +431,7 @@ current_dy_box.clear();
 
     }
 // std::cout<<"ped_dy_obs_id size is "<<ped_dy_obs_id.size()<<endl;
-ped_dy_obs_id.clear();
+
 
 if(imap)
 {
@@ -439,7 +439,7 @@ if(imap)
     
 
 }
-
+ped_dy_obs_id.clear();
 }
 
 
@@ -511,7 +511,8 @@ void MappingProcess::OdometryAndPointcloud_cb(const sensor_msgs::PointCloud2::Co
     // PointCloud_Odometry_pub_.publish(pcl_msg_out);
 
     /****************************************************************************************************************************/
-
+    last_cur_map.curr_position(0)=odom_msg->pose.pose.position.x;
+    last_cur_map.curr_position(1)=odom_msg->pose.pose.position.y;
     /*This part is used to publish each frame of the laser pointcloud transformed*/
     pcl::toROSMsg(*laserCloudTransformed, pcl_msg_out);
     pcl_msg_out.header.stamp = pcl_msg->header.stamp;
@@ -888,11 +889,11 @@ void MappingProcess::dyobsmap_vis(const ros::TimerEvent& e)
     marker_Clear.action=visualization_msgs::Marker::DELETEALL;
     marker_ClearArray.markers.push_back(marker_Clear);
     obstacle_pub_clearmarkerarray.publish(marker_ClearArray);
-  if(have_dynamic_)
-  {
-    for(double localx=-local_map_size(0)/5;localx<=local_map_size(0)/5;localx=localx+0.1)
-        for(double localy=-local_map_size(1)/5;localy<=local_map_size(1)/5;localy=localy+0.1)
-            for(double time=0.0;time<local_map_size(2);time=time+0.3)
+//   if(have_dynamic_)
+//   {
+    for(double localx=-local_map_size(0);localx<=local_map_size(0);localx=localx+resolution_)
+        for(double localy=-local_map_size(1);localy<=local_map_size(1);localy=localy+resolution_)
+            for(double time=0.0;time<local_map_size(2);time=time+time_resolution_)
         {
             Eigen::Vector3d pos;
             Eigen::Vector3i id;
@@ -904,7 +905,7 @@ void MappingProcess::dyobsmap_vis(const ros::TimerEvent& e)
             {
             visualization_msgs::Marker marker;
             marker.header.frame_id="map";
-            marker.type=visualization_msgs::Marker::SPHERE;
+            marker.type=visualization_msgs::Marker::CUBE;
             marker.action=visualization_msgs::Marker::ADD;
             marker.id=numid;
             // marker.pose.position.x=712-(obstacle_data.minX+obstacle_data.maxX )/2;
@@ -913,9 +914,9 @@ void MappingProcess::dyobsmap_vis(const ros::TimerEvent& e)
             marker.pose.position.z=pos(2);
             marker.pose.orientation.x=1.0;
 
-            marker.scale.x=1;
-            marker.scale.y=1;
-            marker.scale.z=1;
+            marker.scale.x=1.0;
+            marker.scale.y=1.0;
+            marker.scale.z=1.0;
 
             marker.color.r=1.0;
             marker.color.g=1.0;
@@ -930,7 +931,7 @@ void MappingProcess::dyobsmap_vis(const ros::TimerEvent& e)
         }
         visualization_msgs::Marker marker;
             marker.header.frame_id="map";
-            marker.type=visualization_msgs::Marker::SPHERE;
+            marker.type=visualization_msgs::Marker::CUBE;
             marker.action=visualization_msgs::Marker::ADD;
             marker.id=numid;
             // marker.pose.position.x=712-(obstacle_data.minX+obstacle_data.maxX )/2;
@@ -939,9 +940,9 @@ void MappingProcess::dyobsmap_vis(const ros::TimerEvent& e)
             marker.pose.position.z=0;
             marker.pose.orientation.x=1.0;
 
-            marker.scale.x=1;
-            marker.scale.y=1;
-            marker.scale.z=1;
+            marker.scale.x=1.0;
+            marker.scale.y=1.0;
+            marker.scale.z=1.0;
 
             marker.color.r=1.0;
             marker.color.g=0.0;
@@ -951,7 +952,7 @@ void MappingProcess::dyobsmap_vis(const ros::TimerEvent& e)
     obstaclemap_pub_markerarray.publish(marker_array);
     std::cout<<"car_id_ is "<<car_id_<<endl;
     std::cout<<"marker_array size is "<<marker_array.markers.size()<<endl;
-  }
+//   }
     
 }
 void MappingProcess::dy_map_view()
@@ -1397,24 +1398,36 @@ bool MappingProcess::isInMap_obs_s(const Eigen::Vector3i &id)
 void MappingProcess::dy_pedobstmap(const Eigen::Vector2d& t_wc,const std::vector<std::deque<ped_dynamic_trueobs>> dyobs_map,const std::vector<int>& dyobs_id)
 {
  // ifokmap=false;
+ int ocunt=0;
+
+ 
+  cout<<"dyobs_id size "<<dyobs_id.size()<<endl;
+
       for(int i=0; i<dyobs_id.size(); i++)  //历史轨迹，带有预测和膨胀的时空地图
     {
             Eigen::Vector3i idx;
+            cout<<"dyobs_map size "<<dyobs_map[dyobs_id[i]].size()<<endl;
 
             Eigen::Vector3d dy_pos_expen;
-            dy_pos_expen<< dyobs_map[i].back().agentstate.x,dyobs_map[i].back().agentstate.y;
+            dy_pos_expen<< dyobs_map[dyobs_id[i]].back().agentstate.x,dyobs_map[dyobs_id[i]].back().agentstate.y,0;
+            cout<<"dy_pos_expen "<<dy_pos_expen[0]<<" "<<dy_pos_expen[1]<<dy_pos_expen[2]<<endl;
+
             posToIndex_obs(dy_pos_expen, idx,t_wc);
+            cout<<"idx "<<idx<<endl;
             if(isInMap_obs_s(idx))
-            {spatio_space_map[idx(1) * localmapsize(0) + idx(0)+idx(2) * localmapsize(0)* localmapsize(1)]=1.0;}
+            {spatio_space_map[idx(1) * localmapsize(0) + idx(0)+idx(2) * localmapsize(0)* localmapsize(1)]=1.0;ocunt++;}
+            else{cout<<"isInMap_obs_s 0"<<endl;}
                 
         xyt_space_map.push_back(dy_pos_expen);
         Eigen::Vector2d last_pos,first_pos;
         double dtimel;
-        last_pos<<dyobs_map[i].back().agentstate.x,dyobs_map[i].back().agentstate.y;
-        first_pos<<dyobs_map[i].front().agentstate.x,dyobs_map[i].front().agentstate.y;;
-        dtimel=dyobs_map[i].back().his_time-dyobs_map[i].front().his_time;
+        last_pos<<dyobs_map[dyobs_id[i]].back().agentstate.x,dyobs_map[dyobs_id[i]].back().agentstate.y;
+        first_pos<<dyobs_map[dyobs_id[i]].front().agentstate.x,dyobs_map[dyobs_id[i]].front().agentstate.y;;
+        dtimel=dyobs_map[dyobs_id[i]].back().his_time-dyobs_map[dyobs_id[i]].front().his_time;
         // cout<<"jkjkjkjkjk"<<endl;
         // double dtime=dyobstacs[i].history_traj.back()(2)-dyobstacs[i].history_traj.front()(2);
+        cout<<"dtimel "<<dtimel<<endl;
+
         if(dtimel>0)
         {
         Eigen::Vector2d velocity=(last_pos-first_pos)/dtimel;
@@ -1426,9 +1439,12 @@ void MappingProcess::dy_pedobstmap(const Eigen::Vector2d& t_wc,const std::vector
         fu_pos(1)=last_pos(1)+velocity(1)*time_resolution_;
         fu_pos(2)=time*time_resolution_;
         posToIndex_obs(fu_pos, idx,t_wc);
+        
+        
         if(isInMap_obs_s(idx))
         {
             spatio_space_map[idx(1) * localmapsize(0) + idx(0)+idx(2) * localmapsize(0)* localmapsize(1)]=1.0;
+            
             xyt_space_map.push_back(fu_pos);
 
             for(int j=-4;j<=4;j++)//未来膨胀
@@ -1452,7 +1468,7 @@ void MappingProcess::dy_pedobstmap(const Eigen::Vector2d& t_wc,const std::vector
 
     }
 
-
+  cout<<"ocunt size "<<ocunt<<endl;
 }
 
 

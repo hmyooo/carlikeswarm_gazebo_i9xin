@@ -42,7 +42,7 @@
         <param name="map/z_size" value="$(arg map_size_z)"/>
         <param name="map/resolution" value="0.1"/>
         <!-- <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/kinematic-cbs/map/the0.3s_ceng_all_0_5smallerwei3Z6s_back_weitianchong.pcd" /> -->
-        <param name="map/mapfile" type = "string" value = "/home/robot/hmy/test_cailiao/social_contexts_house.pcd" />
+        <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/test_ws_gazebo_1/test_ws/src/pgm_map_creator/maps/social_contexts_house.pcd" />
         <!-- <param name="map/mapfile" type = "string" value = "/home/rancho/1hmy/map/pointmap/0111.pcd" /> -->
 
         
